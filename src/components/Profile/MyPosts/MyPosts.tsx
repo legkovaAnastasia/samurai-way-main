@@ -1,16 +1,18 @@
 import s from './MyPosts.module.css'
-export const Profile = () => {
+import {Post} from "./Post/Post";
+export const MyPosts = () => {
     return <div className={s.content}>
-        <div>
-            <img src='https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg'/>
-        </div>
-        <div>ava + decription</div>
         <div>my posts
+            <div>
+                <textarea></textarea>
+                <button>add post</button>
+            </div>
             <div>new posts
-                <div className='posts'>
-                    <div className='item'>post 1</div>
-                    <div className='item'>post 2</div>
-                    <div className='item'>post 3</div>
+                <div className={s.posts}>
+                    <Post message='hi' like='1'/>
+                    <Post message='nice' like='2'/>
+                    <Post message="its's okey" like='2'/>
+                    <Post message='sdddvsdww' like='45'/>
                 </div>
             </div>
         </div>

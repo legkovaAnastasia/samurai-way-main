@@ -9,3 +9,7 @@
   /*grid-gap: 10px*/
 }
 
+.app-wrapper{
+  grid-area: c;
+  background-color: aquamarine;
+}

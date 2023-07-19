@@ -2,10 +2,11 @@ import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 export const MyPosts = () => {
     return <div className={s.content}>
-        <div>my posts
+        <div className={s.postsBlock}>
+            <h3>my posts</h3>
             <div>
-                <textarea></textarea>
-                <button>add post</button>
+               <div><textarea></textarea></div>
+                <div><button>add post</button></div>
             </div>
             <div>new posts
                 <div className={s.posts}>

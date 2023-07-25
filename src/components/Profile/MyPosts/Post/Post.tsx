@@ -2,7 +2,8 @@ import s from './Post.module.css'
 
 type PropsType = {
     message: string
-    like: string
+    like: number,
+    id:number
 }
 export const Post = (props: PropsType) => {
     return <div>

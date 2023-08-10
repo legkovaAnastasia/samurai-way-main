@@ -19,12 +19,12 @@ export const Dialogues = (props:DialoguesPageType) => {
     return (
         <div className={s.dialogues}>
             <div className={s.dialogueItems}>
-                {props.dialoguesPage.dialoguesData.map(el=>{
+                {props.dialoguesData.map(el=>{
                     return <DialogueItem name={el.name} id={el.id}/>
                 })}
             </div>
             <div className={s.messages}>
-                {props.dialoguesPage.messageData.map(el=>{
+                {props.messageData.map(el=>{
                     return <Message text={el.message} id={el.id}/>})}
             </div>
         </div>

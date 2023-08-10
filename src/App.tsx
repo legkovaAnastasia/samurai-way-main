@@ -5,12 +5,12 @@ import {Profile} from "./components/Profile/Profile";
 import {Dialogues} from "./components/Dialogues/Dialogues";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from "react";
-import state from "./components/redux/state";
-
-// type PropsType =StateType
-const App = () => {
-
-
+import {StoreType} from "./components/redux/state";
+type PropsType={
+    store:StoreType
+}
+const App: React.FC<PropsType> = (props) => {
+    const state=props.store.getState()
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -19,8 +19,8 @@ const App = () => {
 
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route path="/profile/" element={<Profile profilePage={state.profilePage} />}/>
-                        <Route path="/dialogues/*" element={<Dialogues dialoguesPage={state.dialoguesPage}/>}/>
+                        <Route path="/profile/" element={<Profile postData={state.profilePage.postData} addPostCallback={props.store.addPost.bind(props.store)} newPostText={state.profilePage.newPostText} changeNewTextCallback={props.store.changeNewText.bind(props.store)}/>}/>
+                        <Route path="/dialogues/*" element={<Dialogues dialoguesData={state.dialoguesPage.dialoguesData} messageData={state.dialoguesPage.messageData}/>}/>
                         <Route path="/news" element={<Header/>}/>
                         <Route path="/music" element={<Header/>}/>
                         <Route path="/settings" element={<NavBar/>}/>

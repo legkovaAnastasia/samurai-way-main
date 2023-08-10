@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {rename} from "fs";
+import store from "./components/redux/state";
 
 // export type PostDataType ={
 //     postData: Array<PostsType>
@@ -45,8 +45,12 @@ import {rename} from "fs";
 //     {message: 'hello', id:2},
 //     {message: 'good', id:3}
 // ]
-ReactDOM.render(
-    // <App />
-    <App />,
-  document.getElementById('root')
-);
+export let rerenderEntireTree = ()=>{
+    ReactDOM.render(
+        <App store={store}/>,
+        document.getElementById('root')
+    );
+}
+
+rerenderEntireTree()
+store.subscribe(rerenderEntireTree)

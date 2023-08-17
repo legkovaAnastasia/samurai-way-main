@@ -42,7 +42,8 @@ type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
 type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
 type SendMessageAT = ReturnType<typeof sendMessageAC>
 
-export type ActionType = AddPostAT | ChangeNewTextAT | UpdateNewMessageBodyAT |SendMessageAT
+// export type ActionType = AddPostAT | ChangeNewTextAT | UpdateNewMessageBodyAT |SendMessageAT
+export type ActionType = ActionDialoguesType|ActionProfileType
 export const addPostAC = (newPostText: string) => {
     return {
         type: "ADD-POST", newPostText: newPostText
@@ -113,10 +114,10 @@ const store: StoreType = {
     getState() {
         return this._state
     },
-    dispatch(action: ActionProfileType|ActionDialoguesType) {
-    // dispatch(action: ActionType) {
-        profileReducer(this._state.profilePage, {type: 'ADD-POST', newPostText} )
-        profileReducer(this._state.profilePage, {type: 'CHANGE-NEW-TEXT', newText} )
+    // dispatch(action: ActionProfileType|ActionDialoguesType) {
+    dispatch(action) {
+        profileReducer(this._state.profilePage, action)
+        dialoguesReducer(this._state.dialoguesPage, action )
         // dialoguesReducer(this._state.dialoguesPage, {type: 'UPDATE-NEW-MESSAGE-BODY', body: ''} )
         // dialoguesReducer(this._state.dialoguesPage, {type: 'SEND-MESSAGE'} )
         this._callSubscriber()

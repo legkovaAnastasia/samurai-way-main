@@ -1,6 +1,6 @@
-import {PostsType, ProfilePageType} from "./state";
+import {ActionType, PostsType, ProfilePageType} from "./state";
 
-export const profileReducer = (state: ProfilePageType, action: ActionProfileType) => {
+export const profileReducer = (state: ProfilePageType, action: ActionType) => {
     switch (action.type) {
         case 'ADD-POST':
             let newPost: PostsType = {id: new Date().getTime(), message: action.newPostText, likesCount: 300}
@@ -16,9 +16,9 @@ export const profileReducer = (state: ProfilePageType, action: ActionProfileType
     return state
 }
 
-export type ActionProfileType = AddPostAT | ChangeNewTextAT
-type AddPostAT = ReturnType<typeof addPostAC>
-type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
+export type ActionProfileType = ReturnType<typeof addPostAC> | ReturnType<typeof changeNewTextAC>
+// type AddPostAT = ReturnType<typeof addPostAC>
+// type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
 export const addPostAC = (newPostText: string) => {
     return {
         type: "ADD-POST",

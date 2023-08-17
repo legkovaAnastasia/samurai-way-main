@@ -1,22 +1,22 @@
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ProfilePageType} from "../../redux/state";
+import {ActionType,ProfilePageType} from "../../redux/state";
+import {ActionProfileType, addPostAC, changeNewTextAC} from "../../redux/profileReducer";
 import React, {ChangeEvent} from "react";
 
 type PropsType = ProfilePageType
-    & { addPostCallback: () => void }
-    & {changeNewTextCallback:(newText:string)=>void}
-
+    & { dispatch: (action:ActionProfileType) => void }
 
 export const MyPosts = (props: PropsType) => {
 
     let postsElements = props.postData.map(el =>
         <Post message={el.message} like={el.likesCount} id={el.id}/>)
     const addPost = () => {
-        props.addPostCallback()
+        props.dispatch(addPostAC(props.newPostText))
     }
     const onPostChange=(e:ChangeEvent<HTMLTextAreaElement>)=>{
-        props.changeNewTextCallback(e.currentTarget.value)
+        let newText=e.currentTarget.value
+        props.dispatch(changeNewTextAC(newText))
     }
     return <div className={s.content}>
         <div className={s.postsBlock}>

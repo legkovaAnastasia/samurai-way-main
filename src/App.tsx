@@ -19,8 +19,8 @@ const App: React.FC<PropsType> = (props) => {
 
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route path="/profile/" element={<Profile postData={state.profilePage.postData} addPostCallback={props.store.addPost.bind(props.store)} newPostText={state.profilePage.newPostText} changeNewTextCallback={props.store.changeNewText.bind(props.store)}/>}/>
-                        <Route path="/dialogues/*" element={<Dialogues dialoguesData={state.dialoguesPage.dialoguesData} messageData={state.dialoguesPage.messageData}/>}/>
+                        <Route path="/profile/" element={<Profile postData={state.profilePage.postData} dispatch={props.store.dispatch.bind(props.store)} newPostText={state.profilePage.newPostText} />}/>
+                        <Route path="/dialogues/*" element={<Dialogues dialoguesData={state.dialoguesPage.dialoguesData} dispatch={props.store.dispatch.bind(props.store)} messageData={state.dialoguesPage.messageData} newMessageBody={state.dialoguesPage.newMessageBody}/>}/>
                         <Route path="/news" element={<Header/>}/>
                         <Route path="/music" element={<Header/>}/>
                         <Route path="/settings" element={<NavBar/>}/>

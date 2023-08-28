@@ -1,20 +1,19 @@
 import s from './Dialogues.module.css'
 import {DialogueItem} from "./DialogueItem/DialogueItem";
 import {Message} from "./Message/Message";
-import {
-    ActionType,
-    DialoguesPageType,
-    sendMessageAC,
-    updateNewMessageBodyAC
+import {DialoguesPageType,
 } from "../../components/redux/state";
 import {ChangeEvent} from "react";
 
-export const Dialogues = (props: DialoguesPageType & { dispatch: (action: ActionType) => void }) => {
+export const Dialogues = (props: DialoguesPageType & {
+    sendMessage: ()=>void
+    newMessage:(text:string)=>void
+}) => {
     const onSendMessage = () => {
-        props.dispatch(sendMessageAC())
+        props.sendMessage()
     }
     const onNewMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewMessageBodyAC(e.currentTarget.value))
+        props.newMessage(e.currentTarget.value)
     }
     return (
         <div className={s.dialogues}>

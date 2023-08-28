@@ -42,7 +42,6 @@ type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
 type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
 type SendMessageAT = ReturnType<typeof sendMessageAC>
 
-// export type ActionType = AddPostAT | ChangeNewTextAT | UpdateNewMessageBodyAT |SendMessageAT
 export type ActionType = ActionDialoguesType|ActionProfileType
 export const addPostAC = (newPostText: string) => {
     return {

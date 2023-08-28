@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store from "./components/redux/state";
+import {store} from "./components/redux/redux-store";
+import {Provider} from "react-redux";
+
 
 // export type PostDataType ={
 //     postData: Array<PostsType>
@@ -45,12 +47,17 @@ import store from "./components/redux/state";
 //     {message: 'hello', id:2},
 //     {message: 'good', id:3}
 // ]
-export let rerenderEntireTree = ()=>{
-    ReactDOM.render(
-        <App store={store}/>,
-        document.getElementById('root')
-    );
-}
 
-rerenderEntireTree()
-store.subscribe(rerenderEntireTree)
+// let rerenderEntireTree = () => {
+    ReactDOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>,
+    document.getElementById('root')
+);
+// }
+
+// rerenderEntireTree()
+// store.subscribe(() => {
+//     rerenderEntireTree()
+// })

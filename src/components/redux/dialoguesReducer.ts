@@ -1,16 +1,40 @@
 import {ActionType, DialoguesPageType, StateType} from "./state";
 
-
-export const dialoguesReducer = (state: DialoguesPageType, action: ActionType) => {
+// type InitialStateType = {
+//     dialoguesData: Array<DialoguesType>
+//     messageData: Array<MessageType>
+//     newMessageBody: string
+// }
+// export type DialoguesType = {
+//     name: string, id: number
+// }
+// export type MessageType = {
+//     message: string,
+//     id: number
+// }
+let initialState: DialoguesPageType = {
+    dialoguesData: [
+        {name: 'Nastya', id: 1},
+        {name: 'Katya', id: 2},
+        {name: 'Sveta', id: 3},
+        {name: 'Olya', id: 4},
+        {name: 'Masha', id: 5}
+    ],
+    messageData: [
+        {message: 'hi', id: 1},
+        {message: 'hello', id: 2},
+        {message: 'good', id: 3}
+    ],
+    newMessageBody: ''
+}
+export const dialoguesReducer = (state: DialoguesPageType = initialState, action: ActionType) => {
     switch (action.type) {
-        case 'UPDATE-NEW-MESSAGE-BODY':
-            state.newMessageBody = action.body
-            return state;
-        case 'SEND-MESSAGE':
-            let body = state.newMessageBody
-            state.newMessageBody = ''
-            state.messageData.push({message: body, id: 4})
-            return state;
+        case 'UPDATE-NEW-MESSAGE-BODY': {
+            return {...state, newMessageBody: action.body};
+        }
+        case 'SEND-MESSAGE': {
+            return {...state,  messageData: [...state.messageData, {message:state.newMessageBody, id:4}], newMessageBody: '',};
+        }
         default :
             return state
     }

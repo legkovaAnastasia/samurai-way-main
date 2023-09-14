@@ -5,6 +5,7 @@ import {Profile} from "./components/Profile/Profile";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from "react";
 import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
 
 const App = () => {
@@ -17,17 +18,9 @@ const App = () => {
 
                 <div className='app-wrapper-content'>
                     <Routes>
-                        {/*<Route path="/profile/" element={<Profile*/}
-                        {/*    postData={state.profilePage.postData}*/}
-                        {/*    dispatch={store.dispatch.bind(store)}*/}
-                        {/*    newPostText={state.profilePage.newPostText}/>}/>*/}
-                        {/*<Route path="/dialogues/*" element={<DialoguesContainer*/}
-                        {/*    dialoguesData={state.dialoguesPage.dialoguesData}*/}
-                        {/*    dispatch={store.dispatch.bind(store)}*/}
-                        {/*    messageData={state.dialoguesPage.messageData}*/}
-                        {/*    newMessageBody={state.dialoguesPage.newMessageBody}/>}/>*/}
                         <Route path="/profile/" element={<Profile/>}/>
                         <Route path="/dialogues/*" element={<DialoguesContainer/>}/>
+                        <Route path="/users/*" element={<UsersContainer/>}/>
 
                         <Route path="/news" element={<Header/>}/>
                         <Route path="/music" element={<Header/>}/>

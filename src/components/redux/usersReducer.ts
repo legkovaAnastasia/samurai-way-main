@@ -1,34 +1,45 @@
-import {UsersPageType} from "../Users/Users";
+import {UsersPageType, UsersType} from "../Users/UsersContainer";
 
 let initialState: UsersPageType = {
-    users: [
-        {id: 1, photoUrl: 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000',
-            followed: true, fullName: 'Nastya', status: 'Ulala', location: {city: 'Minsk', country: 'Belarus'}},
-        {id: 2, photoUrl: 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000',
-            followed: false, fullName: 'Ksyusha', status: 'Ulala', location: {city: 'Moscow', country: 'Russia'}},
-        {id: 3, photoUrl: 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000',
-            followed: true, fullName: 'Olga', status: 'Ulala', location: {city: 'Gomel', country: 'Belarus'}}
-    ]
+    users: [],
+    pageSize: 20,
+    totalUsersCount: 0,
+    currentPage: 1,
+    onPageChanged: (pageNumber: number) => pageNumber
 }
 export const usersReducer = (state: UsersPageType = initialState, action: ActionUsersType) => {
     switch (action.type) {
         case 'FOLLOW': {
-            return {...state, users: state.users.map(
-                u => u.id === action.id ? {...u, followed: true} : u)}
+            return {
+                ...state, users: state.users.map(
+                    u => u.id === action.id ? {...u, followed: true} : u)
+            }
         }
         case 'UNFOLLOW': {
-            return {...state, users: state.users.map(
-                u => u.id === action.id ? {...u, followed: false} : u)}
+            return {
+                ...state, users: state.users.map(
+                    u => u.id === action.id ? {...u, followed: false} : u)
+            }
         }
         case 'SET_USERS': {
-            return {...state, users: [...state.users, action.users ]}
+            return {...state, users: action.users}
+        }
+        case 'SET_CURRENT_PAGE': {
+            return {...state, currentPage: action.currentPage}
+        }
+        case "SET_TOTAL_USERS_COUNT": {
+            return {...state, totalUsersCount:action.count}
         }
         default:
             return state
     }
 }
 
-export type ActionUsersType = ReturnType<typeof followAC> | ReturnType<typeof unfollowAC> | ReturnType<typeof setUsersAC>
+export type ActionUsersType = ReturnType<typeof followAC>
+    | ReturnType<typeof unfollowAC>
+    | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof setCurrentPageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
 export const followAC = (userId: number) => {
     return {
         type: "FOLLOW",
@@ -41,15 +52,21 @@ export const unfollowAC = (userId: number) => {
         id: userId
     } as const
 }
-export const setUsersAC = (users: UsersPageType) => {
+export const setUsersAC = (users: UsersType[]) => {
     return {
         type: 'SET_USERS',
-        users:users
-    }as const
+        users: users
+    } as const
 }
-// export const unfollowAC = (followed:boolean) => {
-//     return {
-//         type: 'UNFOLLOW',
-//         followed: followed
-//     } as const
-// }
+export const setCurrentPageAC = (currentPage: number) => {
+    return {
+        type: 'SET_CURRENT_PAGE',
+        currentPage: currentPage
+    } as const
+}
+export const setTotalUsersCountAC = (count: number) => {
+    return {
+        type: 'SET_TOTAL_USERS_COUNT',
+        count: count
+    } as const
+}

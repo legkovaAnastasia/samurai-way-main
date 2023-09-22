@@ -11,8 +11,8 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
 
     return <div>
         {pages.map(p => {
-             <span className={props.currentPage === p ? s.selectedPage : s.page}
-                         onClick={(event) => props.onPageChanged(p)}>{p} </span>
+           return  <span className={props.currentPage === p ? s.selectedPage : s.page}
+                         onClick={() => props.onPageChanged(p)}>{p} </span>
         })}
         {props.users.map(u => <div key={u.id + 1}>
                 <span>

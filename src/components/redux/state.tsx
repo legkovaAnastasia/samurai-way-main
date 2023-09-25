@@ -2,6 +2,8 @@
 
 import {ActionProfileType,  profileReducer} from "./profileReducer";
 import {ActionDialoguesType, dialoguesReducer} from "./dialoguesReducer";
+import {UsersType} from "../Users/UsersContainer";
+import {UserProfileType} from "../Profile/ProfileContainer";
 
 export type PostsType = {
     message: string,
@@ -23,6 +25,7 @@ export type MessageType = {
 export type ProfilePageType = {
     newPostText: string
     postData: Array<PostsType>
+    profile: UserProfileType
 }
 export type StateType = {
     profilePage: ProfilePageType
@@ -76,6 +79,7 @@ const store: StoreType = {
                 {message: "its's okey", id: 3, likesCount: 1},
                 {message: 'sdddvsdww', id: 4, likesCount: 45}
             ],
+            profile: { userId:1, lookingForAJob: false, lookingForAJobDescription:'', fullName: 'ASDDF', photos: {small: undefined, large:undefined}, contacts:''}
         },
         dialoguesPage: {
             dialoguesData: [

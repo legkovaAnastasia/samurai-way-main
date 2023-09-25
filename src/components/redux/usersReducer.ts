@@ -6,7 +6,7 @@ let initialState: UsersPageType = {
     totalUsersCount: 0,
     currentPage: 1,
     onPageChanged: (pageNumber: number) => pageNumber,
-    isFetching: true
+    isFetching: false
 }
 export const usersReducer = (state: UsersPageType = initialState, action: ActionUsersType) => {
     switch (action.type) {

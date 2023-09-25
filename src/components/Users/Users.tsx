@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './Users.module.css'
 import {MapDispatchToPropsType, MapStateToPropsType, UsersPageType} from "./UsersContainer";
+import {NavLink} from "react-router-dom";
 
 const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsType ) => {
     let pagesCount = Math.ceil(props.totalUsersCount/props.pageSize)
@@ -17,9 +18,12 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
         {props.users.map(u => <div key={u.id + 1}>
                 <span>
                     <div className={s.photo}>
-                        <img alt={'user'} src={u.photos.small ? u.photos.small
+                        <NavLink to={'/profile/' + u.id}>
+                        <img className={s.img} alt={'user'} src={u.photos.small ? u.photos.small
                             : 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000'
-                        }/></div>
+                        }/>
+                    </NavLink>
+                    </div>
                     {/*<div><button onClick={()=>{}}>{u.followed===true?'unfollow':'follow'}</button></div>*/}
                     <div>
                         {u.followed ? <button onClick={() => {

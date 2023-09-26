@@ -15,6 +15,8 @@ import preloader from '../../../../assets/preloader.svg'
             </div>
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.small}/>ava + description</div>
+            {props.profile.fullName}
+            {/*{props.profile.lookingForAJob}*/}
         </div>
     );
 };

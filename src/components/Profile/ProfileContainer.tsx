@@ -9,6 +9,7 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom"
+import {UsersAPI} from "../../api/api";
 
 export type UserProfileType = {
     userId: number
@@ -51,8 +52,8 @@ export function ProfileAPIComponent (props:MapStateToPropsType & MapDispatchToPr
     // debugger
     let params = useParams()
     let userId = params.userId
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId)
-            .then(response => {
+UsersAPI.getProfile(userId)
+    .then(response => {
                 props.setUserProfile(response.data)
             })
 

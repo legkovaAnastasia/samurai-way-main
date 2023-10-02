@@ -2,17 +2,19 @@ import React from 'react';
 import s from './Users.module.css'
 import {MapDispatchToPropsType, MapStateToPropsType, UsersPageType} from "./UsersContainer";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
+import {UsersAPI} from "../../api/api";
 
-const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsType ) => {
-    let pagesCount = Math.ceil(props.totalUsersCount/props.pageSize)
+const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsType) => {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
     let pages = []
-    for (let i = 1; i <=pagesCount ; i++) {
+    for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
 
     return <div>
         {pages.map(p => {
-           return  <span className={props.currentPage === p ? s.selectedPage : s.page}
+            return <span className={props.currentPage === p ? s.selectedPage : s.page}
                          onClick={() => props.onPageChanged(p)}>{p} </span>
         })}
         {props.users.map(u => <div key={u.id + 1}>
@@ -27,10 +29,20 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
                     {/*<div><button onClick={()=>{}}>{u.followed===true?'unfollow':'follow'}</button></div>*/}
                     <div>
                         {u.followed ? <button onClick={() => {
-                                props.unfollow(u.id)
+                                UsersAPI.unfollowUser(u.id)
+                                    .then(response => {
+                                        if (response.data.resultCode === 0) {
+                                            props.unfollow(u.id)
+                                        }
+                                    })
                             }}>Unfollow</button>
                             : <button onClick={() => {
-                                props.follow(u.id)
+                                UsersAPI.followUser(u.id)
+                                    .then(response => {
+                                        if (response.data.resultCode === 0) {
+                                            props.follow(u.id)
+                                        }
+                                    })
                             }}>Follow</button>}
                     </div>
                 </span>

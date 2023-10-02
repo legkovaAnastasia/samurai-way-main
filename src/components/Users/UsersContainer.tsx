@@ -8,9 +8,9 @@ import {
     unfollowAC
 } from "../redux/usersReducer";
 import React from "react";
-import axios from "axios";
 import Users from "./Users";
 import preloader from '../../assets/preloader.svg'
+import {UsersAPI} from "../../api/api";
 
 export type MapStateToPropsType = {
     users: UsersType[]
@@ -53,21 +53,21 @@ type PhotosType = {
 class UsersAPIComponent extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
     componentDidMount() {
         this.props.toggleIsFetching(true)
-            axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-                .then(response => {
-                    this.props.toggleIsFetching(false)
-                    this.props.setUsers(response.data.items)
-                    this.props.setTotalUsersCount(response.data.totalCount)
-                })
+        UsersAPI.getUsers(this.props.currentPage, this.props.pageSize)
+            .then(data => {
+                this.props.toggleIsFetching(false)
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
+            })
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
-            .then(response => {
+        UsersAPI.getUsers(pageNumber, this.props.pageSize)
+            .then(data => {
                 this.props.toggleIsFetching(false)
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(data.items)
             })
     }
 
@@ -123,7 +123,7 @@ const mapStateToProps = (state: StorePropsType) => {
 //         }
 //     }
 // }
-export const UsersContainer = connect(mapStateToProps,  {
+export const UsersContainer = connect(mapStateToProps, {
         follow: followAC,
         unfollow: unfollowAC,
         setUsers: setUsersAC,
@@ -131,4 +131,4 @@ export const UsersContainer = connect(mapStateToProps,  {
         setTotalUsersCount: setTotalUsersCountAC,
         toggleIsFetching: toggleIsFetchingAC // можно переименовать AC в просто  follow(вместо followAC
     }                                        // и таким образом оставить только follow (тк ключ-значение совпадают
-    )(UsersAPIComponent)
+)(UsersAPIComponent)

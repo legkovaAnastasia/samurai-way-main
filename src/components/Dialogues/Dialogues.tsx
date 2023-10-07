@@ -1,13 +1,13 @@
 import s from './Dialogues.module.css'
 import {DialogueItem} from "./DialogueItem/DialogueItem";
 import {Message} from "./Message/Message";
-import {DialoguesPageType,
-} from "../../components/redux/state";
-import {ChangeEvent} from "react";
 
-export const Dialogues = (props: DialoguesPageType & {
-    sendMessage: ()=>void
-    newMessage:(text:string)=>void
+import {ChangeEvent} from "react";
+import {MapStateToPropsType} from "./DialoguesContainer";
+
+export const Dialogues = (props: MapStateToPropsType & {
+    sendMessage: () => void
+    newMessage: (text: string) => void
 }) => {
     const onSendMessage = () => {
         props.sendMessage()

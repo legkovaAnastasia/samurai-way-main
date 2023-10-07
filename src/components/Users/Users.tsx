@@ -29,28 +29,12 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
                     <div>
                         {u.followed ? <button
                                 disabled={props.followingInProgress.some(id=>id===u.id)}
-                                              onClick={() => {
-                            props.toggleFollowingProgress(true,u.id)
-                                UsersAPI.unfollowUser(u.id)
-                                    .then(response => {
-                                        if (response.data.resultCode === 0) {
-                                            props.unfollow(u.id)
-                                        }
-                                        props.toggleFollowingProgress(false,u.id)
-                                    })
-                            }}>Unfollow</button>
+                                              onClick={() => props.unfollowTC(u.id)
+                            }>Unfollow</button>
                             : <button
                                 disabled={props.followingInProgress.some(id=>id===u.id)}
-                                onClick={() => {
-                                props.toggleFollowingProgress(true,u.id)
-                                UsersAPI.followUser(u.id)
-                                    .then(response => {
-                                        if (response.data.resultCode === 0) {
-                                            props.follow(u.id)
-                                        }
-                                        props.toggleFollowingProgress(false, u.id)
-                                    })
-                            }}>Follow</button>}
+                                onClick={() => props.followTC(u.id)
+                                }>Follow</button>}
                     </div>
                 </span>
             <span>

@@ -7,6 +7,7 @@ import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login";
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
                         <Route path="/profile/:userId" element={<ProfileContainer/>}/>
                         <Route path="/dialogues/" element={<DialoguesContainer/>}/>
                         <Route path="/users/" element={<UsersContainer/>}/>
+                        <Route path="/login/" element={<Login/>}/>
 
                         <Route path="/news" element={<HeaderContainer/>}/>
                         <Route path="/music" element={<HeaderContainer/>}/>

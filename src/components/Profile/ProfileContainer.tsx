@@ -9,6 +9,7 @@ import {
     useParams,
 } from "react-router-dom"
 import {withAuthRedirect} from "../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 export type UserProfileType = {
     userId: number
@@ -22,16 +23,7 @@ type PhotosType = {
     small: string | undefined
     large: string | undefined
 }
-// type ContactsType = {
-//     github: string
-//     vk: string
-//     facebook: string
-//     instagram: string
-//     twitter: string
-//     website: string
-//     youtube: string
-//     mainLink: string
-// }
+
 export type MapStateToPropsType = {
     profile: UserProfileType,
     newPostText: string,
@@ -86,8 +78,12 @@ function withRouter(Component: any) {
     return ComponentWithRouterProp;
 }
 
-export const ProfileContainer = withAuthRedirect(connect(mapStateToProps, {
-    addPost: addPostAC,
-    changeNewText: changeNewTextAC,
-    getUserProfileTC: getUserProfileTC
-})(withRouter(ProfileAPIComponent)))
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        addPost: addPostAC,
+        changeNewText: changeNewTextAC,
+        getUserProfileTC: getUserProfileTC
+    }),
+    withRouter,
+    // withAuthRedirect
+)(ProfileAPIComponent)

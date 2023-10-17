@@ -10,5 +10,5 @@ export const HeaderContainer = () => {
     useEffect(() => {
         dispatch(getAuthUserDataTC())
     }, [])
-    return <Header login={state.login} email={state.email} userId={state.userId} isAuth={state.isAuth}/>
+    return <Header login={state.login} email={state.email} userId={state.userId} isAuth={state.isAuth} />
 }

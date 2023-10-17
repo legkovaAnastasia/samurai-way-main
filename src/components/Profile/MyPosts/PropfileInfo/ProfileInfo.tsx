@@ -1,10 +1,10 @@
 import React from 'react';
 import s from "./ProfileInfo.module.css";
-import {ProfilePageType} from "../../../redux/state";
 import preloader from '../../../../assets/preloader.svg'
+import {ProfileStatus} from "./ProfileStatus";
+import {MapDispatchToPropsType, MapStateToPropsType} from "../../ProfileContainer";
 
-
- export const ProfileInfo = (props: ProfilePageType) => {
+export const ProfileInfo = (props: MapStateToPropsType&MapDispatchToPropsType) => {
      if(!props.profile){
            return <img src={preloader}/>
      }
@@ -16,7 +16,7 @@ import preloader from '../../../../assets/preloader.svg'
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.small}/>ava + description</div>
             {props.profile.fullName}
-            {/*{props.profile.lookingForAJob}*/}
+            <ProfileStatus status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
         </div>
     );
 };

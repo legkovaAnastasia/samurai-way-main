@@ -16,7 +16,7 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
             return <span className={props.currentPage === p ? s.selectedPage : s.page}
                          onClick={() => props.onPageChanged(p)}>{p} </span>
         })}
-        {props.users.map(u => <div key={u.id + 1}>
+        {props.users.map(u => <div key={u.id}>
                 <span>
                     <div className={s.photo}>
                         <NavLink to={'/profile/' + u.id}>

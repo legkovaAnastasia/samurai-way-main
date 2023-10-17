@@ -13,8 +13,7 @@ import React from "react";
 export type MapStateToPropsType = {
     dialoguesData: DialoguesType[],
     messageData: MessageType[],
-    newMessageBody:string,
-    isAuth: boolean
+    newMessageBody:string
 }
 export type DialoguesType = {
     name: string, id: number
@@ -27,8 +26,7 @@ const mapStateToProps = (state: StorePropsType) => {
     return {
         dialoguesData: state.dialoguesPage.dialoguesData,
         messageData: state.dialoguesPage.messageData,
-        newMessageBody: state.dialoguesPage.newMessageBody,
-        isAuth: state.auth.isAuth
+        newMessageBody: state.dialoguesPage.newMessageBody
     }
 }
 const mapDispatchToProps = (dispatch: (action: ActionDialoguesType) => void) => {
@@ -42,4 +40,5 @@ const mapDispatchToProps = (dispatch: (action: ActionDialoguesType) => void) => 
     }
 }
 
-export  default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), withAuthRedirect)(Dialogues)
+// export  default compose<React.ComponentType>(connect(mapStateToProps, mapDispatchToProps), withAuthRedirect)(Dialogues)
+export const DialoguesContainer = withAuthRedirect(connect(mapStateToProps, mapDispatchToProps)(Dialogues))

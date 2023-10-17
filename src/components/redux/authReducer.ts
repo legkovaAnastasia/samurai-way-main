@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {UsersAPI} from "../../api/api";
+import preloader from '../../assets/preloader.svg'
 
 export type AuthType = {
     userId: number | null,
@@ -11,13 +12,13 @@ let initialState: AuthType = {
     userId: null,
     email: null,
     login: null,
-    isAuth:false
+    isAuth: false
 }
 export const authReducer = (state: AuthType = initialState, action: ActionUsersType) => {
     switch (action.type) {
         case 'SET_USER_DATA': {
             return {
-                ...state, ...action.data, isAuth:true
+                ...state, ...action.data, isAuth: true
             }
         }
         default:
@@ -34,8 +35,8 @@ export const setAuthUserDataAC = (userId: number, email: string, login: string) 
     } as const
 }
 
-export const getAuthUserDataTC = () => (dispatch:Dispatch)=> {
-    return         UsersAPI.getAuth()
+export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
+    UsersAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login))

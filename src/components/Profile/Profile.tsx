@@ -3,10 +3,10 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {MapDispatchToPropsType, MapStateToPropsType, UserProfileType} from "./ProfileContainer";
 import {ProfilePageType} from "../redux/state";
 
-export const Profile = (props: ProfilePageType|UserProfileType&MapStateToPropsType&MapDispatchToPropsType) => {
+export const Profile = (props: MapStateToPropsType&MapDispatchToPropsType) => {
 
     return <div>
-        <ProfileInfo  newPostText={props.newPostText} profile={props.profile} postData={props.postData} />
-        <MyPostsContainer profile={props.profile}/>
+        <ProfileInfo  {...props}/>
+        <MyPostsContainer profile={props.profile} status={props.status}/>
     </div>
 }

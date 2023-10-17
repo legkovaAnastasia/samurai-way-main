@@ -1,7 +1,7 @@
 import {ActionType, PostsType, ProfilePageType} from "./state";
 import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
-import {UsersAPI} from "../../api/api";
+import {ProfileAPI} from "../../api/api";
 
 let initialState: ProfilePageType = {
     newPostText: 'pipiska',
@@ -11,7 +11,8 @@ let initialState: ProfilePageType = {
         {message: "its's okey", id: 3, likesCount: 1},
         {message: 'sdddvsdww', id: 4, likesCount: 45}
     ],
-    profile: { userId:1, lookingForAJob: false, lookingForAJobDescription:'', fullName: 'ASDDF', photos: {small: undefined, large:undefined}, contacts:''}
+    profile: { userId:1, lookingForAJob: false, lookingForAJobDescription:'', fullName: 'ASDDF', photos: {small: undefined, large:undefined}, contacts:''},
+    status: ''
 }
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionType) => {
     switch (action.type) {
@@ -25,6 +26,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case 'SET_USER_PROFILE':{
             return  {...state, profile:action.profile}
         }
+        case 'SET_USER_STATUS': {
+            return  {...state, status:action.status}
+        }
         default:
             return state
     }
@@ -33,6 +37,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof changeNewTextAC>
     | ReturnType<typeof setUserProfileAC>
+|ReturnType<typeof setUserStatusAC>
 export const addPostAC = (newPostText: string) => {
     return {
         type: "ADD-POST",
@@ -51,10 +56,28 @@ export const setUserProfileAC = (profile: UserProfileType) => {
         profile: profile
     } as const
 }
+export const setUserStatusAC = (status:string)=>{
+    return {
+        type: 'SET_USER_STATUS' as const,
+        status
+    }
+}
 
 export const getUserProfileTC = (userId:string|undefined) => (dispatch: Dispatch) => {
-    return UsersAPI.getProfile(userId)
+    return ProfileAPI.getProfile(userId)
         .then(response => {
             dispatch(setUserProfileAC(response.data))
+        })
+}
+export const getUserStatusTC = (userId:string|undefined)=>(dispatch:Dispatch)=>{
+    ProfileAPI.getStatus(userId)
+        .then(res=> {
+            dispatch(setUserStatusAC(res.data))
+        })
+}
+export const updateUserStatusTC = (status:string)=>(dispatch:Dispatch)=>{
+    ProfileAPI.updateStatus(status)
+        .then(res=> {
+            dispatch(setUserStatusAC(status))
         })
 }

@@ -5,11 +5,12 @@ import React from "react";
 import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import {Login} from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 const App = () => {
+
     return (
         <BrowserRouter>
             <div className="app-wrapper">

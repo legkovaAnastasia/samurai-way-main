@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './Users.module.css'
 import {MapDispatchToPropsType, MapStateToPropsType, UsersPageType} from "./UsersContainer";
-import {NavLink} from "react-router-dom";
+import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import {UsersAPI} from "../../api/api";
+import axios from "axios";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {Provider, TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsType) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
@@ -51,3 +55,10 @@ const Users = (props: UsersPageType & MapDispatchToPropsType & MapStateToPropsTy
 }
 
 export default Users;
+
+
+
+
+
+
+

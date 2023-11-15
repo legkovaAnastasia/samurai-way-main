@@ -9,15 +9,15 @@ import React, {ChangeEvent} from "react";
 
 type PropsType = ProfilePageType&{
     updateNewPostText: (text:string)=>void
-    addPost: ()=>void
+    addPost: (newPostText:string)=>void
 }
 
 export const MyPosts = (props: PropsType) => {
 
     let postsElements = props.postData.map(el =>
         <Post message={el.message} like={el.likesCount} id={el.id}/>)
-    const addPost = () => {
-        props.addPost()
+    const addPost = (text:string) => {
+        props.addPost(text)
     }
     const onPostChange=(e:ChangeEvent<HTMLTextAreaElement>)=>{
         let newText=e.currentTarget.value
@@ -29,7 +29,7 @@ export const MyPosts = (props: PropsType) => {
             <div>
                 <div><textarea onChange={onPostChange} value={props.newPostText} /></div>
                 <div>
-                    <button onClick={addPost}>add post</button>
+                    <button onClick={(e)=>addPost(e.currentTarget.value)}>add post</button>
                 </div>
             </div>
             <div>new posts

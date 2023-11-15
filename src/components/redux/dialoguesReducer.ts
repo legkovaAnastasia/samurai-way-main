@@ -1,4 +1,4 @@
-import {ActionType, DialoguesPageType, StateType} from "./state";
+import {ActionType, DialoguesPageType} from "./state";
 
 // type InitialStateType = {
 //     dialoguesData: Array<DialoguesType>
@@ -24,8 +24,7 @@ let initialState: DialoguesPageType = {
         {message: 'hi', id: 1},
         {message: 'hello', id: 2},
         {message: 'good', id: 3}
-    ],
-    newMessageBody: ''
+    ]
 }
 export const dialoguesReducer = (state: DialoguesPageType = initialState, action: ActionType) => {
     switch (action.type) {
@@ -33,7 +32,7 @@ export const dialoguesReducer = (state: DialoguesPageType = initialState, action
             return {...state, newMessageBody: action.body};
         }
         case 'SEND-MESSAGE': {
-            return {...state,  messageData: [...state.messageData, {message:state.newMessageBody, id:4}], newMessageBody: '',};
+            return {...state,  messageData: [...state.messageData, {message:action.newMessage, id:4}]};
         }
         default :
             return state
@@ -49,8 +48,9 @@ export const updateNewMessageBodyAC = (body: string) => {
         body: body
     } as const
 }
-export const sendMessageAC = () => {
+export const sendMessageAC = (message:string) => {
     return {
-        type: 'SEND-MESSAGE'
+        type: 'SEND-MESSAGE',
+        newMessage: message
     } as const
 }

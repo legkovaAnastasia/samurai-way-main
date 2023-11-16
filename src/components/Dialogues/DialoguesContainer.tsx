@@ -1,7 +1,7 @@
 
 import {Dialogues} from "./Dialogues";
 import {connect} from "react-redux";
-import {ActionDialoguesType, sendMessageAC, updateNewMessageBodyAC} from "../redux/dialoguesReducer";
+import {ActionDialoguesType, sendMessageAC} from "../redux/dialoguesReducer";
 import {StorePropsType} from "../redux/redux-store";
 import {withAuthRedirect} from "../HOC/withAuthRedirect";
 import React from "react";
@@ -9,11 +9,9 @@ import React from "react";
 export type MapStateToPropsType = {
     dialoguesData: DialoguesType[],
     messageData: MessageType[],
-    // newMessageBody:string
 }
 export type MapDispatchToPropsType = {
-    sendMessage:(message:string)=>void,
-    newMessage: (text: string)=>void
+    sendMessage:(message:string)=>void
 }
 export type DialoguesType = {
     name: string, id: number
@@ -33,9 +31,6 @@ const mapDispatchToProps = (dispatch: (action: ActionDialoguesType) => void) => 
     return {
         sendMessage: (message:string) => {
             dispatch(sendMessageAC(message))
-        },
-        newMessage: (text: string) => {
-            dispatch(updateNewMessageBodyAC(text))
         }
     }
 }

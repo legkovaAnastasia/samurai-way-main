@@ -22,7 +22,7 @@ export type MessageType = {
     id: number
 }
 export type ProfilePageType = {
-    newPostText: string
+    // newPostText: string
     postData: Array<PostsType>
     profile: UserProfileType,
     status: string
@@ -40,29 +40,29 @@ export type StoreType = {
     dispatch: (action: ActionProfileType | ActionDialoguesType) => void
 }
 
-type AddPostAT = ReturnType<typeof addPostAC>
-type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
-type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
-type SendMessageAT = ReturnType<typeof sendMessageAC>
+// type AddPostAT = ReturnType<typeof addPostAC>
+// type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
+// type UpdateNewMessageBodyAT = ReturnType<typeof updateNewMessageBodyAC>
+// type SendMessageAT = ReturnType<typeof sendMessageAC>
 
 export type ActionType = ActionDialoguesType | ActionProfileType
-export const addPostAC = (newPostText: string) => {
-    return {
-        type: "ADD-POST", newPostText: newPostText
-    } as const
-}
-export const changeNewTextAC = (newText: string) => {
-    return {
-        type: 'CHANGE-NEW-TEXT',
-        newText: newText
-    } as const
-}
-export const updateNewMessageBodyAC = (body: string) => {
-    return {
-        type: 'UPDATE-NEW-MESSAGE-BODY',
-        body: body
-    } as const
-}
+// export const addPostAC = (newPostText: string) => {
+//     return {
+//         type: "ADD-POST", newPostText: newPostText
+//     } as const
+// }
+// export const changeNewTextAC = (newText: string) => {
+//     return {
+//         type: 'CHANGE-NEW-TEXT',
+//         newText: newText
+//     } as const
+// }
+// export const updateNewMessageBodyAC = (body: string) => {
+//     return {
+//         type: 'UPDATE-NEW-MESSAGE-BODY',
+//         body: body
+//     } as const
+// }
 export const sendMessageAC = () => {
     return {
         type: 'SEND-MESSAGE'

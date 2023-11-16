@@ -1,6 +1,4 @@
-import {Post} from "./Post/Post";
-import  {ProfilePageType, sendMessageAC, updateNewMessageBodyAC} from "../../redux/state";
-import {ActionProfileType, addPostAC, changeNewTextAC} from "../../redux/profileReducer";
+import {ActionProfileType, addPostAC} from "../../redux/profileReducer";
 import React from "react";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
@@ -37,15 +35,13 @@ import {store, StorePropsType} from "../../redux/redux-store";
 // }
 const mapStateToProps = (state: StorePropsType) => {
     return{
-        newPostText: state.profilePage.newPostText,
+        // newPostText: state.profilePage.newPostText,
         postData:state.profilePage.postData
     }
 }
 const mapDispatchToProps = (dispatch: (action: ActionProfileType) => void) => {
     return {
-        updateNewPostText: (text:string)=>{
-            dispatch(changeNewTextAC(text))
-        },
+
         addPost: (newPostText:string)=>{
           dispatch(addPostAC(newPostText))
         }

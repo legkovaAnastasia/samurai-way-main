@@ -27,7 +27,7 @@ type PhotosType = {
 
 export type MapStateToPropsType = {
     profile: UserProfileType,
-    newPostText: string,
+    // newPostText: string,
     postData: Array<PostsType>,
     status: string,
     isAuth: boolean

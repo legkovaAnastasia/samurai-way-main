@@ -10,19 +10,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 export const Dialogues = (props: MapStateToPropsType & MapDispatchToPropsType) => {
-    // const onSendMessage = () => {
-    //     props.sendMessage()
-    // }
-    // const onNewMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    //     props.newMessage(e.currentTarget.value)
-    // }
     const formik = useFormik({
         initialValues: {
             message: ''
         },
         onSubmit: values => {
             alert(JSON.stringify(values.message));
-            // onNewMessage(e.currentTarget.value)
             props.sendMessage(values.message)
         },
     })
@@ -37,13 +30,6 @@ export const Dialogues = (props: MapStateToPropsType & MapDispatchToPropsType) =
                 {props.messageData.map(el => {
                     return <Message text={el.message} id={el.id}/>
                 })}
-                {/*<div>*/}
-                {/*    <div><textarea value={props.newMessageBody} onChange={onNewMessage}*/}
-                {/*                   placeholder='Enter your message'></textarea></div>*/}
-                {/*    <div>*/}
-                {/*        <button onClick={onSendMessage}>Send</button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>
                         <TextField label="message"

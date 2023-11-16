@@ -1,14 +1,14 @@
 import React, {useEffect} from "react";
 import {Header} from "./Header";
-import {useDispatch, useSelector} from "react-redux";
-import {AuthType, getAuthUserDataTC} from "../redux/authReducer";
-import {StorePropsType} from "../redux/redux-store";
+import {getAuthUserDataTC, logoutTC} from "../redux/authReducer";
+import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 
 export const HeaderContainer = () => {
-    let dispatch = useDispatch()
-    let state = useSelector<StorePropsType, AuthType>(state => state.auth)
+    let dispatch = useAppDispatch()
+
+    let state = useAppSelector(state => state.auth)
     useEffect(() => {
         dispatch(getAuthUserDataTC())
-    }, [])
+    }, [state.isAuth])
     return <Header login={state.login} email={state.email} userId={state.userId} isAuth={state.isAuth} />
 }

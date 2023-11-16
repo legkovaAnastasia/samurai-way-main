@@ -2,24 +2,26 @@ import {Dispatch} from "redux";
 import {UsersAPI} from "../../api/api";
 import preloader from '../../assets/preloader.svg'
 import {LoginDataType} from "../Login/Login";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 export type AuthType = {
     userId: null|number,
     email: string | null,
     login: string | null
-    isAuth: boolean
+    isAuth: boolean,
 }
 let initialState: AuthType = {
     userId: null,
     email: null,
     login: null,
-    isAuth: false
+    isAuth: false,
 }
 export const authReducer = (state: AuthType = initialState, action: ActionUsersType) => {
     switch (action.type) {
         case 'SET_USER_DATA': {
             return {
-                ...state, ...action.data, isAuth: true
+                ...state, ...action.data
             }
         }
         default:
@@ -40,7 +42,7 @@ export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
     UsersAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
-                dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, response.data.data.true))
+                dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
             }
         })
 }
@@ -49,15 +51,15 @@ export const loginTC = (data: LoginDataType) => (dispatch: Dispatch<ActionUsersT
     UsersAPI.login(data)
         .then(response => {
             if (response.data.resultCode === 0) {
-                dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, response.data.data.true))
+                dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
             }
         })
 }
-export const logoutTC = (data: LoginDataType) => (dispatch: Dispatch<ActionUsersType>) => {
-    UsersAPI.login(data)
+export const logoutTC = () => (dispatch: Dispatch<ActionUsersType>) => {
+    UsersAPI.logout()
         .then(response => {
             if (response.data.resultCode === 0) {
-                    dispatch(setAuthUserDataAC(null, null, null,false ))
+                    dispatch(setAuthUserDataAC(null,null,null, false ))
             }
         })
 }

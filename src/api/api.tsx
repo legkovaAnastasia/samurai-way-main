@@ -23,7 +23,7 @@ export const UsersAPI={
         return instance.post('auth/login', data);
     },
     logout(){
-        return instance.delete('auth/me')
+        return instance.delete('auth/login')
     },
     followUser(userId:number) {
         return instance.post(`follow/${userId}`, {})

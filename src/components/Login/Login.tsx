@@ -8,8 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useAppDispatch} from "../redux/redux-store";
+import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 import {loginTC} from "../redux/authReducer";
+import {Navigate, useNavigate} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -24,6 +25,8 @@ export type LoginDataType = {
 }
 export const Login = () => {
     const dispatch = useAppDispatch()
+    const isAuth = useAppSelector(state => state.auth.isAuth)
+    const navigate = useNavigate()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -49,6 +52,11 @@ export const Login = () => {
             dispatch(loginTC(values))
         },
     })
+
+    if (isAuth) {
+    return <Navigate to={'/profile/*'}/>
+}
+
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>

@@ -1,6 +1,11 @@
-import axios, {Axios, AxiosResponse} from "axios";
-import {LoginDataType} from "../components/Login/Login";
+import axios from "axios";
 
+
+type LoginDataType = {
+    email:string,
+    password: string,
+    rememberMe: boolean
+}
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials:true
@@ -14,9 +19,12 @@ export const UsersAPI={
     me() {
         return instance.get('auth/me')
     },
-    // login(data: LoginDataType){
-    //     return instance.post<ResponseType<{ userId: number }>, AxiosResponse<ResponseType<{ userId:number }>>, LoginDataType>('auth/login', data);
-    // },
+    login(data: LoginDataType){
+        return instance.post('auth/login', data);
+    },
+    logout(){
+        return instance.delete('auth/me')
+    },
     followUser(userId:number) {
         return instance.post(`follow/${userId}`, {})
     },

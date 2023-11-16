@@ -1,6 +1,5 @@
 import {UsersPageType, UsersType} from "../Users/UsersContainer";
 import {UsersAPI} from "../../api/api";
-import {ThunkType} from "./redux-store";
 
 let initialState: UsersPageType = {
     users: [],

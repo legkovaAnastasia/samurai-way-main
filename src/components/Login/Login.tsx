@@ -8,6 +8,8 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {useAppDispatch} from "../redux/redux-store";
+import {loginTC} from "../redux/authReducer";
 
 
 type FormikErrorType = {
@@ -21,6 +23,7 @@ export type LoginDataType = {
     rememberMe: boolean
 }
 export const Login = () => {
+    const dispatch = useAppDispatch()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -42,7 +45,8 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            // alert(JSON.stringify(values));
+            dispatch(loginTC(values))
         },
     })
     return <Grid container justifyContent={'center'}>
@@ -54,13 +58,15 @@ export const Login = () => {
                                    margin="normal"
                                    {...formik.getFieldProps('email')}
                         />
-                        {formik.errors.email && formik.touched.email && <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                        {formik.errors.email && formik.touched.email &&
+                            <div style={{color: 'red'}}>{formik.errors.email}</div>}
                         <TextField type="password"
                                    label="Password"
                                    margin="normal"
                                    {...formik.getFieldProps('password')}
                         />
-                        {formik.errors.password && formik.touched.password && <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                        {formik.errors.password && formik.touched.password &&
+                            <div style={{color: 'red'}}>{formik.errors.password}</div>}
                         <FormControlLabel label={'Remember me'}
                                           control={<Checkbox name="rememberMe"
                                                              onChange={formik.handleChange}

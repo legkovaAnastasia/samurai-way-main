@@ -92,5 +92,5 @@ export default compose<React.ComponentType>(
         getUserProfileTC: getUserProfileTC, getUserStatusTC: getUserStatusTC, updateUserStatusTC: updateUserStatusTC
     }),
     withRouter,
-    withAuthRedirect
+    // withAuthRedirect
 )(ProfileAPIComponent)

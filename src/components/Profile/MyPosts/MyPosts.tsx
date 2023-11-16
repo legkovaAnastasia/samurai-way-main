@@ -11,12 +11,22 @@ import Button from "@mui/material/Button";
 type PropsType = ProfilePageType&{
     addPost: (newPostText:string)=>void
 }
+type FormikErrorType = {
+    post?: string
+}
 
 export const MyPosts = (props: PropsType) => {
 
     const formik = useFormik({
         initialValues: {
             post: ''
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {}
+            if (!values.post.trim()) {
+                errors.post = 'Type something before sending'
+            }
+            return errors
         },
         onSubmit: values => {
             props.addPost(values.post)
@@ -35,6 +45,7 @@ export const MyPosts = (props: PropsType) => {
                                margin="normal"
                                placeholder="Enter new post"
                                {...formik.getFieldProps("post")}/>
+                    {formik.errors.post && formik.touched.post && <div style={{color: 'red'}}>{formik.errors.post}</div>}
                 </FormGroup>
                 <Button type={'submit'} variant={'contained'} color={'primary'} >
                     Post

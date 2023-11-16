@@ -27,18 +27,18 @@ export type ProfilePageType = {
     profile: UserProfileType,
     status: string
 }
-export type StateType = {
-    profilePage: ProfilePageType
-    dialoguesPage: DialoguesPageType
-}
+// export type StateType = {
+//     profilePage: ProfilePageType
+//     dialoguesPage: DialoguesPageType
+// }
 
-export type StoreType = {
-    _state: StateType
-    _callSubscriber: () => void
-    subscribe: (callback: () => void) => void
-    getState: () => StateType
-    dispatch: (action: ActionProfileType | ActionDialoguesType) => void
-}
+// export type StoreType = {
+//     _state: StateType
+//     _callSubscriber: () => void
+//     subscribe: (callback: () => void) => void
+//     getState: () => StateType
+//     dispatch: (action: ActionProfileType | ActionDialoguesType) => void
+// }
 
 // type AddPostAT = ReturnType<typeof addPostAC>
 // type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>
@@ -63,11 +63,11 @@ export type ActionType = ActionDialoguesType | ActionProfileType
 //         body: body
 //     } as const
 // }
-export const sendMessageAC = () => {
-    return {
-        type: 'SEND-MESSAGE'
-    } as const
-}
+// export const sendMessageAC = () => {
+//     return {
+//         type: 'SEND-MESSAGE'
+//     } as const
+// }
 
 // const store: StoreType = {
 //     _state: {

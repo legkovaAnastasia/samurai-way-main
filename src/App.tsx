@@ -1,15 +1,42 @@
 import './App.css';
 import {NavBar} from "./components/NavBar/NavBar";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import React from "react";
+import {BrowserRouter, Routes, Route, useParams, useNavigate, useLocation} from "react-router-dom";
+import React, {useEffect} from "react";
 import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import {useAppDispatch, useAppSelector} from "./components/redux/redux-store";
+import {CircularProgress} from "@mui/material";
+import {getAuthUserDataTC} from "./components/redux/authReducer";
+import {setInitializedAC} from "./components/redux/appReducer";
 
 
 const App = () => {
+    const dispatch = useAppDispatch()
+    const isInitialized = useAppSelector((state) => state.app.initialized)
+    useEffect(() => {
+        dispatch(getAuthUserDataTC())
+    }, [])
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
+    // function withRouter(Component:any) {
+    //     function ComponentWithRouterProp(props:any) {
+    //         let location = useLocation();
+    //         let navigate = useNavigate();
+    //         let params = useParams();
+    //         return (
+    //             <Component {...props} router={{ location, navigate, params }} />
+    //         );
+    //     }
+    //     return ComponentWithRouterProp;
+    // }
 
     return (
         <BrowserRouter>

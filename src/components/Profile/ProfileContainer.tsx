@@ -46,8 +46,10 @@ export type MapDispatchToPropsType = {
 export function ProfileAPIComponent(props: MapStateToPropsType & MapDispatchToPropsType) {
     let params = useParams()
     let userId = params.userId
+    // if(!userId){
+    //     props.history.push('/login')
+    // }
     useEffect(() => {
-        let userId = props.profile.userId.toString()
         props.getUserProfileTC(userId)
         props.getUserStatusTC(userId)
         props.getAuthUserDataTC()
@@ -76,6 +78,11 @@ function withRouter(Component: any) {
         let location = useLocation();
         let navigate = useNavigate();
         let params = useParams();
+        useEffect(() => {
+            if (!props.isAuth) {
+                navigate("/login");
+            }
+        }, [props.isAuth, navigate]);
         return (
             <Component
                 {...props}
@@ -95,5 +102,5 @@ export default compose<React.ComponentType>(
         updateUserStatusTC: updateUserStatusTC
     }),
     withRouter,
-    withAuthRedirect
+    // withAuthRedirect
 )(ProfileAPIComponent)

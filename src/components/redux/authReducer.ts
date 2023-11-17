@@ -2,6 +2,7 @@ import {Dispatch} from "redux";
 import {UsersAPI} from "../../api/api";
 import preloader from '../../assets/preloader.svg'
 import {LoginDataType} from "../Login/Login";
+import {setInitializedAC} from "./appReducer";
 
 export type AuthType = {
     userId: null | number,
@@ -55,6 +56,9 @@ export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
             }
+        })
+        .finally(()=>{
+            dispatch(setInitializedAC())
         })
 }
 

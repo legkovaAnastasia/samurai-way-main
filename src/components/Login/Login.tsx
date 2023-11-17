@@ -26,7 +26,7 @@ export type LoginDataType = {
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector(state => state.auth.isAuth)
-    const navigate = useNavigate()
+    const error = useAppSelector(state => state.auth.error)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -54,8 +54,8 @@ export const Login = () => {
     })
 
     if (isAuth) {
-    return <Navigate to={'/profile/*'}/>
-}
+        return <Navigate to={'/profile/*'}/>
+    }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
@@ -79,6 +79,7 @@ export const Login = () => {
                                           control={<Checkbox name="rememberMe"
                                                              onChange={formik.handleChange}
                                                              checked={formik.values.rememberMe}/>}/>
+                        {error && <div style={{color: 'red'}}>{error}</div>}
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>

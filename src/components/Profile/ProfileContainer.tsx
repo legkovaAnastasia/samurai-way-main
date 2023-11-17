@@ -27,7 +27,6 @@ type PhotosType = {
 
 export type MapStateToPropsType = {
     profile: UserProfileType,
-    // newPostText: string,
     postData: Array<PostsType>,
     status: string,
     isAuth: boolean
@@ -48,6 +47,7 @@ export function ProfileAPIComponent(props: MapStateToPropsType & MapDispatchToPr
     let params = useParams()
     let userId = params.userId
     useEffect(() => {
+        let userId = props.profile.userId.toString()
         props.getUserProfileTC(userId)
         props.getUserStatusTC(userId)
         props.getAuthUserDataTC()
@@ -65,7 +65,8 @@ let mapStateToProps = (state: StorePropsType) => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        userId: state.auth.userId
     }
 }
 
@@ -89,7 +90,9 @@ function withRouter(Component: any) {
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         getAuthUserDataTC:getAuthUserDataTC,
-        getUserProfileTC: getUserProfileTC, getUserStatusTC: getUserStatusTC, updateUserStatusTC: updateUserStatusTC
+        getUserProfileTC: getUserProfileTC,
+        getUserStatusTC: getUserStatusTC,
+        updateUserStatusTC: updateUserStatusTC
     }),
     withRouter,
     withAuthRedirect

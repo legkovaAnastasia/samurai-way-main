@@ -71,7 +71,7 @@ let mapStateToProps = (state: StorePropsType) => {
         userId: state.auth.userId
     }
 }
-
+console.log('rerender profile')
 function withRouter(Component: any) {
 
     function ComponentWithRouterProp(props: any) {

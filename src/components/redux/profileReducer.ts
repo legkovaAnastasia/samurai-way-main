@@ -62,7 +62,6 @@ export const getUserProfileTC = (userId:string|undefined) => (dispatch: Dispatch
 export const getUserStatusTC = (userId:string|undefined)=>(dispatch:Dispatch)=>{
     ProfileAPI.getStatus(userId)
         .then(res=> {
-            debugger
             dispatch(setUserStatusAC(res.data))
         })
 }

@@ -15,8 +15,14 @@ type FormikErrorType = {
     post?: string
 }
 
-export const MyPosts = (props: PropsType) => {
+const areEqual = (prevProps: PropsType, nextProps:PropsType) => {
+    // Custom comparison logic based on prevProps and nextProps
+    // Return true if props are equal, return false otherwise
+    return prevProps.postData === nextProps.postData;
+};
 
+export const MyPosts = React.memo((props: PropsType) => {
+    console.log('render')
     const formik = useFormik({
         initialValues: {
             post: ''
@@ -58,4 +64,4 @@ export const MyPosts = (props: PropsType) => {
             </div>
         </div>
     </div>
-}
+}, areEqual)

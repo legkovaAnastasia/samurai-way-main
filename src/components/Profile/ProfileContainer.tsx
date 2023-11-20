@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {StorePropsType} from "../redux/redux-store";
+import {StorePropsType, useAppDispatch} from "../redux/redux-store";
 import {getUserProfileTC, getUserStatusTC, updateUserStatusTC} from "../redux/profileReducer";
 import {
     useLocation,
@@ -43,16 +43,18 @@ export type MapDispatchToPropsType = {
     getAuthUserDataTC:()=>void
 }
 
-export function ProfileAPIComponent(props: MapStateToPropsType & MapDispatchToPropsType) {
-    let params = useParams()
-    let userId = params.userId
-    // if(!userId){
-    //     props.history.push('/login')
-    // }
+export function ProfileContainer(props: MapStateToPropsType & MapDispatchToPropsType) {
+    const params = useParams()
+    const userId = params.userId
+    // console.log(params)
+    // let userId=+userId
+    const dispatch = useAppDispatch()
     useEffect(() => {
-        props.getUserProfileTC(userId)
-        props.getUserStatusTC(userId)
-        props.getAuthUserDataTC()
+        dispatch(getAuthUserDataTC())
+        // const userId = params.userId
+        // console.log(params)
+        dispatch(getUserProfileTC(userId))
+        dispatch(getUserStatusTC(userId))
     }, [])
 
     return <div>
@@ -103,4 +105,4 @@ export default compose<React.ComponentType>(
     }),
     withRouter,
     // withAuthRedirect
-)(ProfileAPIComponent)
+)(ProfileContainer)

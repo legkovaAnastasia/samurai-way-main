@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 export const Header = (props: AuthType) => {
 
     let dispatch = useAppDispatch()
-    let state = useAppSelector(state => state.auth)
+    // let state = useAppSelector(state => state.auth)
 
     const logoutHandler = () => {
         dispatch(logoutTC())
@@ -18,7 +18,7 @@ export const Header = (props: AuthType) => {
                 src="https://w7.pngwing.com/pngs/973/11/png-transparent-phoenix-logo-design-mark-phoenix-fire-thumbnail.png"/>
             <div className={s.loginBlock}>
                 {props.isAuth ?
-                    <div> {props.login} <button onClick={logoutHandler}>Logout</button> </div>:
+                    <div> {props.login} <button onClick={logoutHandler}>Logout</button> </div> :
                     <NavLink to={'/login'}>Login</NavLink>}
             </div>
         </header>

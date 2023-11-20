@@ -1,6 +1,6 @@
 import './App.css';
 import {NavBar} from "./components/NavBar/NavBar";
-import {BrowserRouter, Routes, Route, useParams, useNavigate, useLocation} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useParams, useNavigate, useLocation, Navigate, NavLink} from "react-router-dom";
 import React, {useEffect} from "react";
 import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
@@ -10,22 +10,27 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import {useAppDispatch, useAppSelector} from "./components/redux/redux-store";
 import {CircularProgress} from "@mui/material";
 import {getAuthUserDataTC} from "./components/redux/authReducer";
-import {setInitializedAC} from "./components/redux/appReducer";
-
 
 const App = () => {
     const dispatch = useAppDispatch()
     const isInitialized = useAppSelector((state) => state.app.initialized)
+    const isAuth = useAppSelector((state) => state.auth.isAuth)
+    const userId=useAppSelector(state => state.auth.userId)
     useEffect(() => {
         dispatch(getAuthUserDataTC())
     }, [])
-
     if (!isInitialized) {
+
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
     }
+
+        // if (!!isLoggedIn){
+        //     console.log(isLoggedIn)
+        //     return <NavLink to={'/profile/'+userId}/>
+        // }
     // function withRouter(Component:any) {
     //     function ComponentWithRouterProp(props:any) {
     //         let location = useLocation();

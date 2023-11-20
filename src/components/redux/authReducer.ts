@@ -10,13 +10,15 @@ export type AuthType = {
     login: string | null
     isAuth: boolean,
     error: string | null
+    isLoggedIn: boolean
 }
 let initialState: AuthType = {
     userId: null,
     email: null,
     login: null,
     isAuth: false,
-    error: null
+    error: null,
+    isLoggedIn: false
 }
 export const authReducer = (state: AuthType = initialState, action: ActionUsersType) => {
     switch (action.type) {
@@ -30,12 +32,17 @@ export const authReducer = (state: AuthType = initialState, action: ActionUsersT
                 ...state, error: action.error
             }
         }
+        case "SET_IS_LOGGED_IN": {
+            return {
+                ...state, isLoggedIn: action.isLoggedIn
+            }
+        }
         default:
             return state
     }
 }
 
-export type ActionUsersType = ReturnType<typeof setAuthUserDataAC> | ReturnType<typeof setErrorAC>
+export type ActionUsersType = ReturnType<typeof setAuthUserDataAC> | ReturnType<typeof setErrorAC> |ReturnType<typeof setIsLoggedInAC>
 
 export const setAuthUserDataAC = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
@@ -49,12 +56,19 @@ export const setErrorAC = (error: string) => {
         error: error
     } as const
 }
+export const setIsLoggedInAC = (isLoggedIn:boolean) => {
+    return {
+        type: "SET_IS_LOGGED_IN",
+        isLoggedIn
+    } as const
+}
 
 export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
     UsersAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
+            dispatch(setIsLoggedInAC(true))
             }
         })
         .finally(()=>{

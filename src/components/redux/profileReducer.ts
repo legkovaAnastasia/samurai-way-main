@@ -2,6 +2,8 @@ import {ActionType, PostsType, ProfilePageType} from "./state";
 import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 let initialState: ProfilePageType = {
     postData: [
@@ -20,7 +22,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             return {...state, postData:[...state.postData, newPost], newPostText:''};
         }
         case 'SET_USER_PROFILE':{
-            return  {...state, profile:action.profile}
+            return  {...state, profile:action.profile }
         }
         case 'SET_USER_STATUS': {
             return  {...state, status:action.status}
@@ -42,7 +44,7 @@ export const addPostAC = (newPostText: string) => {
 export const setUserProfileAC = (profile: UserProfileType) => {
     return {
         type: 'SET_USER_PROFILE',
-        profile: profile
+        profile
     } as const
 }
 export const setUserStatusAC = (status:string)=>{
@@ -51,9 +53,8 @@ export const setUserStatusAC = (status:string)=>{
         status
     }
 }
-
 export const getUserProfileTC = (userId:string|undefined) => (dispatch: Dispatch) => {
-    return ProfileAPI.getProfile(userId)
+     ProfileAPI.getProfile(userId)
         .then(response => {
             dispatch(setUserProfileAC(response.data))
         })
@@ -61,6 +62,7 @@ export const getUserProfileTC = (userId:string|undefined) => (dispatch: Dispatch
 export const getUserStatusTC = (userId:string|undefined)=>(dispatch:Dispatch)=>{
     ProfileAPI.getStatus(userId)
         .then(res=> {
+            debugger
             dispatch(setUserStatusAC(res.data))
         })
 }

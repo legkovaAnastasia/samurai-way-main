@@ -4,13 +4,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 import {loginTC} from "../redux/authReducer";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -26,6 +25,7 @@ export type LoginDataType = {
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector(state => state.auth.isAuth)
+    const userId=useAppSelector(state => state.auth.userId)
     const error = useAppSelector(state => state.auth.error)
     const formik = useFormik({
         initialValues: {
@@ -54,7 +54,7 @@ export const Login = () => {
     })
 
     if (isAuth) {
-        return <Navigate to={'/profile/*'}/>
+        return <NavLink to={`/profile/`}/>
     }
 
     return <Grid container justifyContent={'center'}>

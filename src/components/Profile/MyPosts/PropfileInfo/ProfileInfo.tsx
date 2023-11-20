@@ -16,7 +16,7 @@ export const ProfileInfo = (props: MapStateToPropsType&MapDispatchToPropsType) =
             <div className={s.descriptionBlock}>
                 <img src={props.profile.photos.small}/>ava + description</div>
             {props.profile.fullName}
-            <ProfileStatus status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
+            <ProfileStatus {...props} status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
         </div>
     );
 };

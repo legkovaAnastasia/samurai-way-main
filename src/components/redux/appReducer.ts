@@ -5,7 +5,7 @@ import {LoginDataType} from "../Login/Login";
 import {getAuthUserDataTC} from "./authReducer";
 
 export type AppInitialType = {
-initialized: boolean
+    initialized: boolean
 }
 let initialState: AppInitialType = {
     initialized: false

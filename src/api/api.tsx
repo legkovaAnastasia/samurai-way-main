@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 
 type LoginDataType = {
@@ -26,7 +26,7 @@ export const UsersAPI={
         return instance.delete('auth/login')
     },
     followUser(userId:number) {
-        return instance.post(`follow/${userId}`, {})
+        return instance.post<any, AxiosResponse<ResponseType>>(`follow/${userId}`)
     },
     unfollowUser(userId:number) {
         return instance.delete(`follow/${userId}`)

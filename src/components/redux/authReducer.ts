@@ -1,6 +1,5 @@
 import {Dispatch} from "redux";
 import {UsersAPI} from "../../api/api";
-import preloader from '../../assets/preloader.svg'
 import {LoginDataType} from "../Login/Login";
 import {setInitializedAC} from "./appReducer";
 
@@ -42,7 +41,10 @@ export const authReducer = (state: AuthType = initialState, action: ActionUsersT
     }
 }
 
-export type ActionUsersType = ReturnType<typeof setAuthUserDataAC> | ReturnType<typeof setErrorAC> |ReturnType<typeof setIsLoggedInAC>
+export type ActionUsersType =
+    ReturnType<typeof setAuthUserDataAC>
+    | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof setIsLoggedInAC>
 
 export const setAuthUserDataAC = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
@@ -56,29 +58,27 @@ export const setErrorAC = (error: string) => {
         error: error
     } as const
 }
-export const setIsLoggedInAC = (isLoggedIn:boolean) => {
+export const setIsLoggedInAC = (isLoggedIn: boolean) => {
     return {
         type: "SET_IS_LOGGED_IN",
         isLoggedIn
     } as const
 }
 
-export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
-    UsersAPI.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
+export const getAuthUserDataTC = () => async (dispatch: Dispatch) => {
+    let response = await UsersAPI.me()
+    try {
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
             dispatch(setIsLoggedInAC(true))
-            }
-        })
-        .finally(()=>{
-            dispatch(setInitializedAC())
-        })
+        }
+    } finally {
+        dispatch(setInitializedAC())
+    }
 }
 
-export const loginTC = (data: LoginDataType) => (dispatch: Dispatch<ActionUsersType>) => {
-    UsersAPI.login(data)
-        .then(response => {
+export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<ActionUsersType>) => {
+    let response = await UsersAPI.login(data)
             console.log(response.data.messages)
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
@@ -86,13 +86,11 @@ export const loginTC = (data: LoginDataType) => (dispatch: Dispatch<ActionUsersT
                 let message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
                 dispatch(setErrorAC(message))
             }
-        })
 }
-export const logoutTC = () => (dispatch: Dispatch<ActionUsersType>) => {
-    UsersAPI.logout()
-        .then(response => {
+export const logoutTC = () => async (dispatch: Dispatch<ActionUsersType>) => {
+    let response = await UsersAPI.logout()
+
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(null, null, null, false))
             }
-        })
 }

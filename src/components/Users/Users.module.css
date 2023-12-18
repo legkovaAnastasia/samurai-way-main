@@ -4,11 +4,6 @@
     border-radius: 50%;
 }
 
-.selectedPage {
-    font-weight: bold;
-    cursor: pointer;
-}
-
 .page {
     cursor: pointer;
 }

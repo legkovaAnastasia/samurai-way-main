@@ -26,9 +26,9 @@ export type MapDispatchToPropsType = {
     setCurrentPage: (currentPage: number) => void,
     setTotalUsersCount: (count: number) => void,
     toggleFollowingProgress: (isFetching: boolean, id: number) => void
-    getUsersTC:(currentPage:number, pageSize:number)=>void
-    unfollowTC:(userId:number)=>void
-    followTC:(userId:number)=>void
+    getUsersTC: (currentPage: number, pageSize: number) => void
+    unfollowTC: (userId: number) => void
+    followTC: (userId: number) => void
 }
 
 export type UsersPageType = {
@@ -54,7 +54,7 @@ type PhotosType = {
     large: string | null
 }
 
-class UsersAPIComponent extends React.Component<MapStateToPropsType & MapDispatchToPropsType > {
+class UsersAPIComponent extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
     componentDidMount() {
         this.props.getUsersTC(this.props.currentPage, this.props.pageSize)
     }
@@ -65,7 +65,7 @@ class UsersAPIComponent extends React.Component<MapStateToPropsType & MapDispatc
 
     render() {
         return <>
-            {this.props.isFetching ? <img src={preloader}/> :
+            {this.props.isFetching ? <img alt={'preloader'} src={preloader}/> :
                 <Users users={this.props.users}
                        pageSize={this.props.pageSize}
                        totalUsersCount={this.props.totalUsersCount}
@@ -105,7 +105,7 @@ export const UsersContainer = connect(mapStateToProps, {
     setCurrentPage: setCurrentPageAC,
     setTotalUsersCount: setTotalUsersCountAC,
     toggleFollowingProgress: toggleFollowingProgressAC,
-    getUsersTC:getUsersTC,
+    getUsersTC: getUsersTC,
     unfollowTC: unfollowTC,
     followTC: followTC                                    // можно переименовать AC в просто  follow(вместо followAC
 })                                                       // и таким образом оставить только follow (тк ключ-значение совпадают

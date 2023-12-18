@@ -1,8 +1,6 @@
-// import {rerenderEntireTree} from "../../index";
 
-import {ActionProfileType, profileReducer} from "./profileReducer";
-import {ActionDialoguesType, dialoguesReducer} from "./dialoguesReducer";
-import {UsersType} from "../Users/UsersContainer";
+import {ActionProfileType} from "./profileReducer";
+import {ActionDialoguesType} from "./dialoguesReducer";
 import {UserProfileType} from "../Profile/ProfileContainer";
 
 export type PostsType = {

@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 import {loginTC} from "../redux/authReducer";
-import {Navigate, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -25,7 +25,6 @@ export type LoginDataType = {
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector(state => state.auth.isAuth)
-    const userId=useAppSelector(state => state.auth.userId)
     const error = useAppSelector(state => state.auth.error)
     const formik = useFormik({
         initialValues: {
@@ -48,7 +47,6 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            // alert(JSON.stringify(values));
             dispatch(loginTC(values))
         },
     })

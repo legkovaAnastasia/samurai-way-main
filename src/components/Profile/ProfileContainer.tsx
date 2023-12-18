@@ -17,7 +17,7 @@ export type UserProfileType = {
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
-    contacts: ''
+    contacts: string
     photos: PhotosType,
 }
 type PhotosType = {

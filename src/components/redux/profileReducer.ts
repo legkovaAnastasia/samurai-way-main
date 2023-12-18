@@ -2,8 +2,7 @@ import {ActionType, PostsType, ProfilePageType} from "./state";
 import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+
 
 let initialState: ProfilePageType = {
     postData: [
@@ -67,7 +66,7 @@ export const getUserStatusTC = (userId:string|undefined)=>(dispatch:Dispatch)=>{
 }
 export const updateUserStatusTC = (status:string)=>(dispatch:Dispatch)=>{
     ProfileAPI.updateStatus(status)
-        .then(res=> {
+        .then(()=> {
             dispatch(setUserStatusAC(status))
         })
 }

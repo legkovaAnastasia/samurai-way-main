@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import {ActionDialoguesType, sendMessageAC} from "../redux/dialoguesReducer";
 import {StorePropsType} from "../redux/redux-store";
 import {withAuthRedirect} from "../HOC/withAuthRedirect";
-import React from "react";
-import {compose} from "redux";
 
 export type MapStateToPropsType = {
     dialoguesData: DialoguesType[],

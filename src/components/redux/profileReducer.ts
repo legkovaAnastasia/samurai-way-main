@@ -12,10 +12,10 @@ let initialState: ProfilePageType = {
         {message: 'sdddvsdww', id: 4, likesCount: 45}
     ],
     profile: {
-        userId: 1,
+        userId: null,
         lookingForAJob: false,
         lookingForAJobDescription: '',
-        fullName: 'ASDDF',
+        fullName: null,
         photos: {small: undefined, large: undefined},
         contacts: ''
     },
@@ -62,6 +62,7 @@ export const setUserStatusAC = (status: string) => {
 export const getUserProfileTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
+    console.log(response.data)
 }
 export const getUserStatusTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getStatus(userId)

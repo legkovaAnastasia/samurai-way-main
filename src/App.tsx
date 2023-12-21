@@ -2,11 +2,8 @@ import './App.css';
 import {NavBar} from "./components/NavBar/NavBar";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React, {Suspense, useEffect} from "react";
-// import {DialoguesContainer} from "./components/Dialogues/DialoguesContainer";
-// import {UsersContainer} from "./components/Users/UsersContainer";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
-// import ProfileContainer from "./components/Profile/ProfileContainer";
 import {useAppDispatch, useAppSelector} from "./components/redux/redux-store";
 import {CircularProgress} from "@mui/material";
 import {getAuthUserDataTC} from "./components/redux/authReducer";
@@ -65,7 +62,7 @@ const App = () => {
                     <Suspense fallback={<img alt={'preloader'} src={preloader}/>}>
                         <Routes>
                             <Route path="/*" element={<ProfileContainer/>}/>
-                            <Route path="/profile/:userId" element={<ProfileContainer/>}/>
+                            <Route path="/profile/:id?" element={<ProfileContainer/>}/>
                             <Route path="/dialogues/" element={<DialoguesContainer/>}/>
                             <Route path="/users/" element={<UsersContainer/>}/>
                             <Route path="/login/" element={<Login/>}/>

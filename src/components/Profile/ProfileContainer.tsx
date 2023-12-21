@@ -4,19 +4,17 @@ import {connect} from "react-redux";
 import {StorePropsType, useAppDispatch} from "../redux/redux-store";
 import {getUserProfileTC, getUserStatusTC, updateUserStatusTC} from "../redux/profileReducer";
 import {
-    useLocation,
     useNavigate,
     useParams,
 } from "react-router-dom"
-import {withAuthRedirect} from "../HOC/withAuthRedirect";
 import {compose} from "redux";
-import {getAuthUserDataTC} from "../redux/authReducer";
+import {AuthType, getAuthUserDataTC} from "../redux/authReducer";
 
 export type UserProfileType = {
-    userId: number
+    userId: number | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
-    fullName: string
+    fullName: string | null
     contacts: string
     photos: PhotosType,
 }
@@ -40,22 +38,22 @@ export type MapDispatchToPropsType = {
     getUserProfileTC: (userId: string | undefined) => void
     getUserStatusTC: (userId: string | undefined) => void
     updateUserStatusTC: (status: string) => void
-    getAuthUserDataTC:()=>void
+    getAuthUserDataTC: () => void
 }
 
-export function ProfileContainer(props: MapStateToPropsType & MapDispatchToPropsType) {
-    const params = useParams()
-    const userId = params.userId
-    // console.log(params)
-    // let userId=+userId
+export function ProfileContainer(props: MapStateToPropsType & MapDispatchToPropsType & AuthType) {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const params = useParams()
+    let userId = params.id
+    console.log(userId)
     useEffect(() => {
-        dispatch(getAuthUserDataTC())
-        // const userId = params.userId
-        // console.log(params)
-        dispatch(getUserProfileTC(userId))
-        dispatch(getUserStatusTC(userId))
-    }, [])
+        if (!userId) {
+            navigate(`/profile/${props.userId}`)
+        }
+            dispatch(getUserProfileTC(userId))
+            dispatch(getUserStatusTC(userId))
+    }, [dispatch, params, navigate, userId])
 
     return <div>
         <Profile {...props} profile={props.profile}
@@ -73,36 +71,46 @@ let mapStateToProps = (state: StorePropsType) => {
         userId: state.auth.userId
     }
 }
-console.log('rerender profile')
-function withRouter(Component: any) {
-
-    function ComponentWithRouterProp(props: any) {
-        let location = useLocation();
-        let navigate = useNavigate();
-        let params = useParams();
-        useEffect(() => {
-            if (!props.isAuth) {
-                navigate("/login");
-            }
-        }, [props.isAuth, navigate]);
-        return (
-            <Component
-                {...props}
-                router={{location, navigate, params}}
-            />
-        );
-    }
-
-    return ComponentWithRouterProp;
-}
+// function withRouter(Component: ComponentType) {
+//     function ComponentWithRouterProp(props: any) {
+//         let location = useLocation();
+//         let navigate = useNavigate();
+//         let params = useParams<{id: string}>();
+//         let userId = params.id
+//
+//         useEffect(() => {
+//             if (!props.isAuth) {
+//                 navigate("/login");
+//             }
+//         }, [props.isAuth, navigate]);
+//
+//         const dispatch = useAppDispatch()
+//         useEffect(() => {
+//             // if (!userId) {
+//             //     // getAuthUserDataTC()
+//             //     userId = userId?.toString()
+//             // }
+//             dispatch(getAuthUserDataTC())
+//             navigate(`/profile/${userId}`)
+//             dispatch(getUserProfileTC(userId))
+//             dispatch(getUserStatusTC(userId))
+//         }, [dispatch, userId, navigate])
+//         return (
+//             <Component
+//                 {...props}
+//                 router={{location, navigate, params}}
+//             />
+//         );
+//     }
+//
+//     return ComponentWithRouterProp;
+// }
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
-        getAuthUserDataTC:getAuthUserDataTC,
+        getAuthUserDataTC: getAuthUserDataTC,
         getUserProfileTC: getUserProfileTC,
         getUserStatusTC: getUserStatusTC,
         updateUserStatusTC: updateUserStatusTC
     }),
-    withRouter,
-    // withAuthRedirect
 )(ProfileContainer)

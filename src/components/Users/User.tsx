@@ -13,7 +13,7 @@ export const User = (props: PropsType) => {
     return <div>
                 <span>
                     <div className={s.photo}>
-                        <NavLink to={'/profile/' + props.user.id}>
+                        <NavLink to={`/profile/${props.user.id}`}>
                         <img className={s.img} alt={'user'} src={props.user.photos.small ? props.user.photos.small
                             : 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000'
                         }/>

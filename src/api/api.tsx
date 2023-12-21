@@ -35,11 +35,10 @@ export const UsersAPI={
 }
 export const ProfileAPI={
     getProfile(userId:string|undefined){
-        // debugger
         return instance.get(`profile/${userId}`)
     },
     getStatus(userId:string|undefined){
-        return instance.get('profile/status/'+userId)
+        return instance.get(`profile/status/${userId}`)
     },
     updateStatus(status:string){
         return instance.put('profile/status', {status})

@@ -1,7 +1,7 @@
 import ProfileInfo from "./MyPosts/PropfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {MapDispatchToPropsType, MapStateToPropsType, UserProfileType} from "./ProfileContainer";
-import {ProfilePageType} from "../redux/state";
+import {MapDispatchToPropsType, MapStateToPropsType} from "./ProfileContainer";
+import React from "react";
 
 export const Profile = (props: MapStateToPropsType&MapDispatchToPropsType) => {
 

@@ -6,7 +6,7 @@ import React from "react";
 export const Profile = (props: MapStateToPropsType&MapDispatchToPropsType) => {
 
     return <div>
-        <ProfileInfo  {...props}/>
+        <ProfileInfo {...props} isOwner={props.isOwner} savePhotoTC={props.savePhotoTC}/>
         <MyPostsContainer profile={props.profile} status={props.status}/>
     </div>
 }

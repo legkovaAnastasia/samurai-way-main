@@ -1,8 +1,3 @@
-import {Dispatch} from "redux";
-import {UsersAPI} from "../../api/api";
-import preloader from '../../assets/preloader.svg'
-import {LoginDataType} from "../Login/Login";
-import {getAuthUserDataTC} from "./authReducer";
 
 export type AppInitialType = {
     initialized: boolean

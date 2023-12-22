@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {StorePropsType, useAppDispatch} from "../redux/redux-store";
-import {getUserProfileTC, getUserStatusTC, updateUserStatusTC} from "../redux/profileReducer";
+import {getUserProfileTC, getUserStatusTC, savePhotoTC, updateUserStatusTC} from "../redux/profileReducer";
 import {
     useNavigate,
     useParams,
@@ -11,16 +11,17 @@ import {compose} from "redux";
 import {AuthType, getAuthUserDataTC} from "../redux/authReducer";
 
 export type UserProfileType = {
+    isOwner: boolean | null,
     userId: number | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string | null
     contacts: string
-    photos: PhotosType,
+    photos: PhotosType
 }
 type PhotosType = {
-    small: string | undefined
-    large: string | undefined
+    small: string | null
+    large: string | null
 }
 
 export type MapStateToPropsType = {
@@ -28,6 +29,7 @@ export type MapStateToPropsType = {
     postData: Array<PostsType>,
     status: string,
     isAuth: boolean
+    isOwner: boolean
 }
 type PostsType = {
     message: string,
@@ -39,6 +41,7 @@ export type MapDispatchToPropsType = {
     getUserStatusTC: (userId: string | undefined) => void
     updateUserStatusTC: (status: string) => void
     getAuthUserDataTC: () => void
+    savePhotoTC: (file: File) => void
 }
 
 export function ProfileContainer(props: MapStateToPropsType & MapDispatchToPropsType & AuthType) {
@@ -46,19 +49,23 @@ export function ProfileContainer(props: MapStateToPropsType & MapDispatchToProps
     const dispatch = useAppDispatch()
     const params = useParams()
     let userId = params.id
-    console.log(userId)
+
     useEffect(() => {
         if (!userId) {
             navigate(`/profile/${props.userId}`)
+            dispatch(getUserProfileTC(props.userId?.toString()))
+            dispatch(getUserStatusTC(props.userId?.toString()))
         }
-            dispatch(getUserProfileTC(userId))
-            dispatch(getUserStatusTC(userId))
-    }, [dispatch, params, navigate, userId])
+        dispatch(getUserProfileTC(userId))
+        dispatch(getUserStatusTC(userId))
+    }, [dispatch])
 
     return <div>
         <Profile {...props} profile={props.profile}
+                 isOwner={userId === props.userId?.toString()}
                  status={props.status}
                  updateUserStatusTC={props.updateUserStatusTC}
+                 savePhotoTC={props.savePhotoTC}
         />
     </div>
 }
@@ -68,49 +75,17 @@ let mapStateToProps = (state: StorePropsType) => {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         isAuth: state.auth.isAuth,
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        isOwner: state.profilePage.profile.isOwner
     }
 }
-// function withRouter(Component: ComponentType) {
-//     function ComponentWithRouterProp(props: any) {
-//         let location = useLocation();
-//         let navigate = useNavigate();
-//         let params = useParams<{id: string}>();
-//         let userId = params.id
-//
-//         useEffect(() => {
-//             if (!props.isAuth) {
-//                 navigate("/login");
-//             }
-//         }, [props.isAuth, navigate]);
-//
-//         const dispatch = useAppDispatch()
-//         useEffect(() => {
-//             // if (!userId) {
-//             //     // getAuthUserDataTC()
-//             //     userId = userId?.toString()
-//             // }
-//             dispatch(getAuthUserDataTC())
-//             navigate(`/profile/${userId}`)
-//             dispatch(getUserProfileTC(userId))
-//             dispatch(getUserStatusTC(userId))
-//         }, [dispatch, userId, navigate])
-//         return (
-//             <Component
-//                 {...props}
-//                 router={{location, navigate, params}}
-//             />
-//         );
-//     }
-//
-//     return ComponentWithRouterProp;
-// }
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         getAuthUserDataTC: getAuthUserDataTC,
         getUserProfileTC: getUserProfileTC,
         getUserStatusTC: getUserStatusTC,
-        updateUserStatusTC: updateUserStatusTC
+        updateUserStatusTC: updateUserStatusTC,
+        savePhotoTC: savePhotoTC
     }),
 )(ProfileContainer)

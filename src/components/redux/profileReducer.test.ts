@@ -7,7 +7,7 @@ let state = {
         {message: "it is okey", id: 3, likesCount: 1},
         {message: 'sdddvsdww', id: 4, likesCount: 45}
     ],
-    profile: { userId:1, lookingForAJob: false, lookingForAJobDescription:'', fullName: 'ASDDF', photos: {small: undefined, large:undefined}, contacts:'333'},
+    profile: {isOwner:false, userId:1, lookingForAJob: false, lookingForAJobDescription:'', fullName: 'ASDDF', photos: {small: null, large:null}, contacts:'333'},
     status: ' '}
 test('New post should be added', ()=> {
     let action = addPostAC('samurai')

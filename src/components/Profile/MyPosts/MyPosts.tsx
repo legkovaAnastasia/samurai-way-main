@@ -40,7 +40,7 @@ export const MyPosts = React.memo((props: PropsType) => {
         }
     })
     let postsElements = props.postData.map(el =>
-        <Post message={el.message} like={el.likesCount} id={el.id}/>)
+        <Post message={el.message} like={el.likesCount} id={el.id} key={el.id}/>)
 
     return <div className={s.content}>
         <div className={s.postsBlock}>

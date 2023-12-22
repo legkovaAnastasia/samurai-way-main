@@ -12,11 +12,12 @@ let initialState: ProfilePageType = {
         {message: 'sdddvsdww', id: 4, likesCount: 45}
     ],
     profile: {
+        isOwner: false,
         userId: null,
         lookingForAJob: false,
         lookingForAJobDescription: '',
         fullName: null,
-        photos: {small: undefined, large: undefined},
+        photos: {small: null, large: null},
         contacts: ''
     },
     status: ''
@@ -33,6 +34,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case 'SET_USER_STATUS': {
             return {...state, status: action.status}
         }
+        case 'SAVE_PHOTO_SUCCESS': {
+            return {...state, profile: {...state.profile, photos:{...state.profile.photos, small: action.photos}}}
+        }
         default:
             return state
     }
@@ -41,6 +45,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
 export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>
+    | ReturnType<typeof savePhotoSuccessAC>
 export const addPostAC = (newPostText: string) => {
     return {
         type: "ADD-POST",
@@ -59,6 +64,12 @@ export const setUserStatusAC = (status: string) => {
         status
     }
 }
+export const savePhotoSuccessAC = (photos: string|null) => {
+    return {
+        type: 'SAVE_PHOTO_SUCCESS' as const,
+        photos
+    }
+}
 export const getUserProfileTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
@@ -72,5 +83,11 @@ export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch)
     let response = await ProfileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setUserStatusAC(status))
+    }
+}
+export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
+    let response = await ProfileAPI.savePhoto(file)
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccessAC(response.data.photos))
     }
 }

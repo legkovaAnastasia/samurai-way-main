@@ -47,7 +47,6 @@ export type UsersType = {
     followed: boolean,
     name: string,
     status: string,
-    // location: Location
 }
 type PhotosType = {
     small: string | null

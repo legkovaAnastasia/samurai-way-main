@@ -20,23 +20,11 @@ export type MessageType = {
     id: number
 }
 export type ProfilePageType = {
-    // newPostText: string
     postData: Array<PostsType>
     profile: UserProfileType,
     status: string
 }
-// export type StateType = {
-//     profilePage: ProfilePageType
-//     dialoguesPage: DialoguesPageType
-// }
 
-// export type StoreType = {
-//     _state: StateType
-//     _callSubscriber: () => void
-//     subscribe: (callback: () => void) => void
-//     getState: () => StateType
-//     dispatch: (action: ActionProfileType | ActionDialoguesType) => void
-// }
 
 // type AddPostAT = ReturnType<typeof addPostAC>
 // type ChangeNewTextAT = ReturnType<typeof changeNewTextAC>

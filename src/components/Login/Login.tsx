@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 import {loginTC} from "../redux/authReducer";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
+import {ProfileContainer} from "../Profile/ProfileContainer";
 
 
 type FormikErrorType = {
@@ -22,10 +23,12 @@ export type LoginDataType = {
     password: string,
     rememberMe: boolean
 }
+
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const error = useAppSelector(state => state.auth.error)
+    const navigate = useNavigate()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -47,12 +50,14 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            dispatch(loginTC(values))
+          return dispatch(loginTC(values))
         },
     })
 
     if (isAuth) {
-        return <NavLink to={`/profile/`}/>
+        // console.log(userId)
+        // return <ProfileContainer {...props}/>
+        navigate(`/profile/`)
     }
 
     return <Grid container justifyContent={'center'}>

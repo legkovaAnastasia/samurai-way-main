@@ -7,10 +7,10 @@ import {useAppDispatch, useAppSelector} from "../redux/redux-store";
 export const Header = (props: AuthType) => {
 
     let dispatch = useAppDispatch()
-    // let state = useAppSelector(state => state.auth)
+    let auth = useAppSelector(state => state.auth)
 
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        return dispatch(logoutTC())
     }
     return <>
         <header className={s.header}>

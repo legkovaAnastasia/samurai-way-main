@@ -1,6 +1,6 @@
 import './App.css';
 import {NavBar} from "./components/NavBar/NavBar";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
 import React, {Suspense, useEffect} from "react";
 import {HeaderContainer} from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
@@ -27,7 +27,8 @@ const App = () => {
     const userId = useAppSelector(state => state.auth.userId)
     useEffect(() => {
         dispatch(getAuthUserDataTC())
-    }, [])
+    }, [isAuth])
+
     if (!isInitialized) {
 
         return <div

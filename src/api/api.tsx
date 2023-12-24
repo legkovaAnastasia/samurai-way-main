@@ -38,7 +38,7 @@ export const ProfileAPI = {
         return instance.get<any, AxiosResponse>(`profile/${userId}`)
     },
     getStatus(userId: string | undefined) {
-        return instance.get(`profile/status/${userId}`)
+        return instance.get<any, AxiosResponse>(`profile/status/${userId}`)
     },
     updateStatus(status: string) {
         return instance.put('profile/status', {status})

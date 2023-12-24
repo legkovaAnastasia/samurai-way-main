@@ -79,7 +79,6 @@ export const getAuthUserDataTC = () => async (dispatch: Dispatch) => {
 
 export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<ActionUsersType>) => {
     let response = await UsersAPI.login(data)
-            console.log(response.data.messages)
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(response.data.data.id, response.data.data.email, response.data.data.login, true))
             } else {
@@ -89,7 +88,6 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch<Action
 }
 export const logoutTC = () => async (dispatch: Dispatch<ActionUsersType>) => {
     let response = await UsersAPI.logout()
-
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserDataAC(null, null, null, false))
             }

@@ -8,6 +8,6 @@ export const HeaderContainer = () => {
     let state = useAppSelector(state => state.auth)
     useEffect(() => {
         dispatch(getAuthUserDataTC())
-    }, [dispatch])
+    }, [])
     return <Header isLoggedIn={state.isLoggedIn} login={state.login} email={state.email} userId={state.userId} isAuth={state.isAuth} error={state.error} />
 }

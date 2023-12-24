@@ -16,8 +16,18 @@ export type UserProfileType = {
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string | null
-    contacts: string
+    contacts: ContactsType
     photos: PhotosType
+}
+export type ContactsType = {
+    github: string
+    vk:  string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
 }
 type PhotosType = {
     small: string | null
@@ -58,7 +68,7 @@ export function ProfileContainer(props: MapStateToPropsType & MapDispatchToProps
         }
         dispatch(getUserProfileTC(userId))
         dispatch(getUserStatusTC(userId))
-    }, [dispatch])
+    }, [dispatch,props.userId,userId])
 
     return <div>
         <Profile {...props} profile={props.profile}

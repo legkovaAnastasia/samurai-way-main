@@ -18,7 +18,16 @@ let initialState: ProfilePageType = {
         lookingForAJobDescription: '',
         fullName: null,
         photos: {small: null, large: null},
-        contacts: ''
+        contacts: {
+            github: 'string',
+            vk: 'string',
+            facebook: 'string',
+            instagram: 'string',
+            twitter: 'string',
+            website: 'string',
+            youtube: 'string',
+            mainLink: 'string'
+        }
     },
     status: ''
 }
@@ -35,7 +44,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
             return {...state, status: action.status}
         }
         case 'SAVE_PHOTO_SUCCESS': {
-            return {...state, profile: {...state.profile, photos:{...state.profile.photos, small: action.photos}}}
+            return {...state, profile: {...state.profile, photos: {...state.profile.photos, small: action.photos}}}
         }
         default:
             return state
@@ -64,7 +73,7 @@ export const setUserStatusAC = (status: string) => {
         status
     }
 }
-export const savePhotoSuccessAC = (photos: string|null) => {
+export const savePhotoSuccessAC = (photos: string | null) => {
     return {
         type: 'SAVE_PHOTO_SUCCESS' as const,
         photos

@@ -21,7 +21,7 @@ export type UserProfileType = {
 }
 export type ContactsType = {
     github: string
-    vk:  string
+    vk: string
     facebook: string
     instagram: string
     twitter: string
@@ -47,8 +47,8 @@ type PostsType = {
     likesCount: number
 }
 export type MapDispatchToPropsType = {
-    getUserProfileTC: (userId: string | undefined) => void
-    getUserStatusTC: (userId: string | undefined) => void
+    getUserProfileTC: (userId: number | null) => void
+    getUserStatusTC: (userId: number | null) => void
     updateUserStatusTC: (status: string) => void
     getAuthUserDataTC: () => void
     savePhotoTC: (file: File) => void
@@ -58,21 +58,21 @@ export function ProfileContainer(props: MapStateToPropsType & MapDispatchToProps
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const params = useParams()
-    let userId = params.id
+    const userId = Number(params.id)
 
     useEffect(() => {
         if (!userId) {
             navigate(`/profile/${props.userId}`)
-            dispatch(getUserProfileTC(props.userId?.toString()))
-            dispatch(getUserStatusTC(props.userId?.toString()))
+            dispatch(getUserProfileTC(props.userId))
+            dispatch(getUserStatusTC(props.userId))
         }
-        dispatch(getUserProfileTC(userId))
-        dispatch(getUserStatusTC(userId))
-    }, [dispatch,props.userId,userId])
+        dispatch(getUserProfileTC(Number(userId)))
+        dispatch(getUserStatusTC(Number(userId)))
+    }, [dispatch, props.userId, userId])
 
     return <div>
         <Profile {...props} profile={props.profile}
-                 isOwner={userId === props.userId?.toString()}
+                 isOwner={userId === props.userId}
                  status={props.status}
                  updateUserStatusTC={props.updateUserStatusTC}
                  savePhotoTC={props.savePhotoTC}

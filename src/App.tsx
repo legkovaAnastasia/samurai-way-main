@@ -27,7 +27,7 @@ const App = () => {
     const userId = useAppSelector(state => state.auth.userId)
     useEffect(() => {
         dispatch(getAuthUserDataTC())
-    }, [isAuth])
+    }, [isAuth, userId])
 
     if (!isInitialized) {
 
@@ -62,7 +62,7 @@ const App = () => {
                 <div className='app-wrapper-content'>
                     <Suspense fallback={<img alt={'preloader'} src={preloader}/>}>
                         <Routes>
-                            <Route path="/*" element={<ProfileContainer/>}/>
+                            <Route path="/*" element={<DialoguesContainer/>}/>
                             <Route path="/profile/:id?" element={<ProfileContainer/>}/>
                             <Route path="/dialogues/" element={<DialoguesContainer/>}/>
                             <Route path="/users/" element={<UsersContainer/>}/>

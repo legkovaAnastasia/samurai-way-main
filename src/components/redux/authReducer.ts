@@ -46,7 +46,7 @@ export type ActionUsersType =
     | ReturnType<typeof setErrorAC>
     | ReturnType<typeof setIsLoggedInAC>
 
-export const setAuthUserDataAC = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
+export const setAuthUserDataAC = (userId: null | number, email: string | null, login: string | null, isAuth: boolean) => {
     return {
         type: "SET_USER_DATA",
         data: {userId, email, login, isAuth}

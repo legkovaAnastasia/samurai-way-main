@@ -32,12 +32,12 @@ export const Dialogues = (props: MapStateToPropsType & MapDispatchToPropsType) =
         <div className={s.dialogues}>
             <div className={s.dialogueItems}>
                 {props.dialoguesData.map(el => {
-                    return <DialogueItem name={el.name} id={el.id}/>
+                    return <DialogueItem key={el.id} name={el.name} id={el.id}/>
                 })}
             </div>
             <div className={s.messages}>
                 {props.messageData.map(el => {
-                    return <Message text={el.message} id={el.id}/>
+                    return <Message key={el.id}text={el.message} id={el.id}/>
                 })}
                 <form onSubmit={formik.handleSubmit}>
                     <FormGroup>

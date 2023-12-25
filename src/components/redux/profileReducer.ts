@@ -16,7 +16,7 @@ let initialState: ProfilePageType = {
         userId: null,
         lookingForAJob: false,
         lookingForAJobDescription: '',
-        fullName: null,
+        fullName: 'qqq',
         photos: {small: null, large: null},
         contacts: {
             github: 'string',
@@ -79,12 +79,12 @@ export const savePhotoSuccessAC = (photos: string | null) => {
         photos
     }
 }
-export const getUserProfileTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
+export const getUserProfileTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
     console.log(response.data)
 }
-export const getUserStatusTC = (userId: string | undefined) => async (dispatch: Dispatch) => {
+export const getUserStatusTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getStatus(userId)
     dispatch(setUserStatusAC(response.data))
 }

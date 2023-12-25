@@ -34,10 +34,10 @@ export const UsersAPI = {
 
 }
 export const ProfileAPI = {
-    getProfile(userId: string | undefined) {
+    getProfile(userId: number | null) {
         return instance.get<any, AxiosResponse>(`profile/${userId}`)
     },
-    getStatus(userId: string | undefined) {
+    getStatus(userId: number | null) {
         return instance.get<any, AxiosResponse>(`profile/status/${userId}`)
     },
     updateStatus(status: string) {

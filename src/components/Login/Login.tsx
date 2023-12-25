@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -7,10 +7,9 @@ import FormGroup from '@mui/material/FormGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../redux/redux-store";
-import {loginTC} from "../redux/authReducer";
-import {NavLink, useNavigate, useParams} from "react-router-dom";
-import {ProfileContainer} from "../Profile/ProfileContainer";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "../redux/redux-store";
+import {AuthType, loginTC} from "../redux/authReducer";
+import {Navigate, useNavigate} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -26,9 +25,13 @@ export type LoginDataType = {
 
 export const Login = () => {
     const dispatch = useAppDispatch()
+    const id = useAppSelector(state => state.auth.userId)
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const error = useAppSelector(state => state.auth.error)
     const navigate = useNavigate()
+    useEffect(()=>{
+
+    })
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -50,15 +53,16 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-          return dispatch(loginTC(values))
+            return dispatch(loginTC(values))
         },
     })
 
     if (isAuth) {
-        // console.log(userId)
-        // return <ProfileContainer {...props}/>
-        navigate(`/profile/`)
+        console.log(id)
+
+        return <Navigate to={`/profile`}/>
     }
+    // console.log(id)
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>

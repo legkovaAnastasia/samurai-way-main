@@ -13,6 +13,7 @@ import {AuthType, getAuthUserDataTC} from "../redux/authReducer";
 export type UserProfileType = {
     isOwner: boolean | null,
     userId: number | null
+    aboutMe: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string | null
@@ -69,7 +70,6 @@ export function ProfileContainer(props: MapStateToPropsType & MapDispatchToProps
         dispatch(getUserProfileTC(Number(userId)))
         dispatch(getUserStatusTC(Number(userId)))
     }, [dispatch, props.userId, userId])
-
     return <div>
         <Profile {...props} profile={props.profile}
                  isOwner={userId === props.userId}

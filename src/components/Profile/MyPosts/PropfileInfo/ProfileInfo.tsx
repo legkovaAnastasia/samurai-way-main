@@ -1,10 +1,16 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from "./ProfileInfo.module.css";
 import preloader from '../../../../assets/preloader.svg'
 import {ProfileStatus} from "./ProfileStatus";
-import {ContactsType, MapDispatchToPropsType, MapStateToPropsType} from "../../ProfileContainer";
+import {MapDispatchToPropsType, MapStateToPropsType} from "../../ProfileContainer";
+import {useAppSelector} from "../../../redux/redux-store";
+import {ProfileDataForm} from "./PropfileDataForm";
+import Button from "@mui/material/Button";
+import {Input} from "@mui/material";
 
 export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType) => {
+    let [editMode, setEditMode] = useState(false)
+
     if (!props.profile) {
         return <img alt={'preloader'} src={preloader}/>
     }
@@ -13,6 +19,10 @@ export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType)
         if (e.target.files?.length) {
             props.savePhotoTC(e.target.files[0])
         }
+    }
+
+    const changeEditMode = () => {
+        setEditMode(!editMode)
     }
     return (
         <div>
@@ -24,26 +34,46 @@ export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType)
                 <img className={s.photo} alt={'user'} src={props.profile.photos.small ? props.profile.photos.small
                     : 'https://img.freepik.com/premium-vector/face-cute-girl-avatar-young-girl-portrait-vector-flat-illustration_192760-82.jpg?w=2000'}/>
             </div>
-            {props.isOwner && <input type={'file'}
+            {props.isOwner && <Input type={'file'}
                                      onChange={onMainPhotoChange}/>}
+            <div>{props.profile.fullName}</div>
 
-            {props.profile.fullName}
             <ProfileStatus {...props} status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
-            <div>
-                <b>Contacts:</b> {Object.entries(props.profile.contacts).map(([key, value] )=> {
-                    return <Contacts key={key} contactTitle={key} contactValue={value}/>
-            })}
-            </div>
+
+            {editMode ? <ProfileDataForm changeEditModeHandler={changeEditMode}/> :
+                <ProfileData isOwner={props.isOwner} changeEditModeHandler={changeEditMode}/>}
+
         </div>
     );
 };
 
+type PropsType = {
+    changeEditModeHandler: () => void
+    isOwner: boolean
+}
+const ProfileData = (props: PropsType) => {
+    const contacts = useAppSelector(state => state.profilePage.profile.contacts)
+    const profile = useAppSelector(state => state.profilePage.profile)
+
+    return <div>
+        <div style={{fontWeight: 'bold'}}>Looking For A Job: {profile.lookingForAJob ? 'yes' : 'no'}</div>
+        <div style={{fontWeight: 'bold'}}>Looking For A Job Description: {profile.lookingForAJobDescription ? `${profile.lookingForAJobDescription}` : '-'}</div>        <div><b>Contacts:</b></div>
+        {Object.entries(contacts).map(([key, value]) => {
+            return <Contacts key={key} contactTitle={key} contactValue={value}/>
+        })}
+        {props.isOwner && <div>
+            <Button variant={'contained'} color={'primary'} onClick={props.changeEditModeHandler}>Edit</Button>
+        </div>}
+    </div>
+}
 type ContactPropsType = {
     contactTitle: string
     contactValue: string
 }
 export const Contacts = (props: ContactPropsType) => {
-    return <div><b>{props.contactTitle}</b>: <b>{props.contactValue}</b></div>
+    return <div>
+        <div><b>{props.contactTitle}</b>: <b>{props.contactValue}</b></div>
+    </div>
 }
 
 export default ProfileInfo;

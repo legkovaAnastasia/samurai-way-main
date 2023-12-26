@@ -1,4 +1,6 @@
 import axios, {AxiosResponse} from "axios";
+import {UserProfileType} from "../components/Profile/ProfileContainer";
+import {ProfileUpdateDataType} from "../components/Profile/MyPosts/PropfileInfo/PropfileDataForm";
 
 
 type LoginDataType = {
@@ -51,6 +53,9 @@ export const ProfileAPI = {
                 'Content-Type': 'multipart/firm-data'
             }
         })
+    },
+    saveProfile(profileData: ProfileUpdateDataType){
+        return instance.put('/profile', profileData)
     }
 
 }

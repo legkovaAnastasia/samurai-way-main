@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {MapDispatchToPropsType, MapStateToPropsType} from "../../ProfileContainer";
 
-export const ProfileStatus = (props: MapStateToPropsType & MapDispatchToPropsType) => {
+export const ProfileContacts = (props: MapStateToPropsType & MapDispatchToPropsType) => {
 
     const [editMode, setEditMode] = useState(false)
     const [status, setStatus] = useState(props.status)
@@ -23,7 +23,7 @@ export const ProfileStatus = (props: MapStateToPropsType & MapDispatchToPropsTyp
     return (
         <div>
             {!editMode &&
-                <div> <div style={{fontWeight:'bold'}}>Status </div>
+                <div>
                     <span onDoubleClick={activateEditMode}>
                         {props.status || '-----'}
                     </span>

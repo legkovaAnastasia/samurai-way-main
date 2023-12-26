@@ -2,6 +2,8 @@ import {ActionType, PostsType, ProfilePageType} from "./state";
 import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
+import {ProfileUpdateDataType} from "../Profile/MyPosts/PropfileInfo/PropfileDataForm";
+import {AppThunkDispatch, store} from "./redux-store";
 
 
 let initialState: ProfilePageType = {
@@ -17,6 +19,7 @@ let initialState: ProfilePageType = {
         lookingForAJob: false,
         lookingForAJobDescription: '',
         fullName: 'qqq',
+        aboutMe: '',
         photos: {small: null, large: null},
         contacts: {
             github: 'string',
@@ -46,6 +49,25 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case 'SAVE_PHOTO_SUCCESS': {
             return {...state, profile: {...state.profile, photos: {...state.profile.photos, small: action.photos}}}
         }
+        case 'SAVE_PROFILE': {
+            return {
+                ...state, profile: {
+                    ...state.profile,
+                    lookingForAJob: action.profileData.lookingForAJob,
+                    lookingForAJobDescription: action.profileData.lookingForAJobDescription,
+                    contacts: {
+                        ...state.profile.contacts, twitter: action.profileData.contacts.twitter,
+                        vk: action.profileData.contacts.vk,
+                        facebook: action.profileData.contacts.facebook,
+                        website: action.profileData.contacts.website,
+                        instagram: action.profileData.contacts.instagram,
+                        youtube: action.profileData.contacts.youtube,
+                        github: action.profileData.contacts.github,
+                        mainLink: action.profileData.contacts.mainLink
+                    }
+                }
+            }
+        }
         default:
             return state
     }
@@ -55,6 +77,8 @@ export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfileAC>
     | ReturnType<typeof setUserStatusAC>
     | ReturnType<typeof savePhotoSuccessAC>
+    | ReturnType<typeof saveProfileAC>
+
 export const addPostAC = (newPostText: string) => {
     return {
         type: "ADD-POST",
@@ -79,10 +103,17 @@ export const savePhotoSuccessAC = (photos: string | null) => {
         photos
     }
 }
+
+export const saveProfileAC = (profileData: ProfileUpdateDataType) => {
+    return {
+        type: 'SAVE_PROFILE' as const,
+        profileData
+    }
+}
+
 export const getUserProfileTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
-    console.log(response.data)
 }
 export const getUserStatusTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getStatus(userId)
@@ -99,4 +130,13 @@ export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccessAC(response.data.photos))
     }
+}
+export const saveProfileTC = (profileData: ProfileUpdateDataType) => async (dispatch: AppThunkDispatch) => {
+    const userId: number | null = store.getState().auth.userId
+    console.log(userId)
+    const response = await ProfileAPI.saveProfile(profileData)
+    if (response.data.resultCode === 0) {
+        return dispatch(getUserProfileTC(userId))
+    }
+
 }

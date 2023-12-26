@@ -14,6 +14,7 @@ let state = {
         lookingForAJob: false,
         lookingForAJobDescription: '',
         fullName: 'ASDDF',
+        aboutMe: '',
         photos: {small: null, large: null},
         contacts: {
             github: 'string',

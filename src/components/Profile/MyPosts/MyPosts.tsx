@@ -22,7 +22,6 @@ const areEqual = (prevProps: PropsType, nextProps:PropsType) => {
 };
 
 export const MyPosts = React.memo((props: PropsType) => {
-    console.log('render')
     const formik = useFormik({
         initialValues: {
             post: ''

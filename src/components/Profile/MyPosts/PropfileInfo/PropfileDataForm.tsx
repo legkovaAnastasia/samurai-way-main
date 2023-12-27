@@ -10,9 +10,10 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import {saveProfileTC} from "../../../redux/profileReducer";
 import {ContactsType} from "../../ProfileContainer";
-import {Input} from "@mui/material";
 
 export type ProfileUpdateDataType = {
+    fullName: string | null,
+    aboutMe: string | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
     contacts: ContactsType
@@ -21,20 +22,40 @@ type PropsType = {
     changeEditModeHandler: () => void
 }
 
+type FormikErrorType = {
+    facebook?: string
+    website?: string
+    vk?: string
+    twitter?: string
+    instagram?: string
+    youtube?: string
+    github?: string
+    mainLink?: string
+    // [key: string]: string | undefined
+}
 export const ProfileDataForm = (props: PropsType) => {
     const dispatch = useAppDispatch()
     const profile = useAppSelector(state => state.profilePage.profile)
+    const contacts = useAppSelector(state => state.profilePage.profile.contacts)
+    const error = useAppSelector(state => state.profilePage.profile.contacts.error)
 
+    const validationRule = (value: string) => {
+        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+            return 'Incorrect url'
+        }
+        return  ''
+    }
     const formik = useFormik({
+
         initialValues: {
             fullName: profile.fullName,
             aboutMe: profile.aboutMe,
             lookingForAJob: profile.lookingForAJob,
             lookingForAJobDescription: profile.lookingForAJobDescription,
             contacts: {
-                facebook: profile.contacts.facebook,
-                website: profile.contacts.website,
-                vk: profile.contacts.vk,
+                facebook: contacts.facebook,
+                'website': contacts.website,
+                vk: contacts.vk,
                 twitter: profile.contacts.twitter,
                 instagram: profile.contacts.instagram,
                 youtube: profile.contacts.youtube,
@@ -45,15 +66,8 @@ export const ProfileDataForm = (props: PropsType) => {
 
         // validate: (values) => {
         //     const errors: FormikErrorType = {}
-        //     if (!values.email) {
-        //         errors.email = 'Required'
-        //     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        //         errors.email = 'Invalid email address'
-        //     }
-        //     if (!values.password) {
-        //         errors.password = 'Required'
-        //     } else if (values.password.length < 5) {
-        //         errors.password = 'must be more then 5 symbols'
+        //         if (!/^[A-Z0-9._%+-]+\.[A-Z]{2,4}$/i.test(values.contacts.website)) {
+        //         errors.website = 'Invalid email address'
         //     }
         //     return errors
         // },
@@ -62,7 +76,7 @@ export const ProfileDataForm = (props: PropsType) => {
             props.changeEditModeHandler()
         },
     })
-    // const textField = register('name', { required: true })
+
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
@@ -71,62 +85,25 @@ export const ProfileDataForm = (props: PropsType) => {
                         <FormControlLabel label={'Looking for a job'}
                                           control={<Checkbox name="lookingForAJob"
                                                              onChange={formik.handleChange}
-                                                             checked={formik.values.lookingForAJob}/>}/>
+                                                             checked={formik.values.lookingForAJob}
+                                          />}/>
                         <TextField label="Looking for a job description"
                                    margin="normal"
                                    placeholder={profile.lookingForAJobDescription}
                                    {...formik.getFieldProps('lookingForAJobDescription')}
                         />
                         <div style={{fontWeight: 'bold'}}>Contacts:</div>
-                        <TextField label={'facebook'}
-                                   type={'text'}
-                                   margin="normal"
-                                   {...formik.getFieldProps('facebook')}
-                        />
-                        {/*{formik.errors.email && formik.touched.email &&*/}
-                        {/*    // <div style={{color: 'red'}}>{formik.errors.email}</div>}*/}
-                        <TextField label="website"
-                                   margin="normal"
-                                   placeholder={profile.contacts.website}
-                                   {...formik.getFieldProps('website')}
-                        />
-                        {/*{formik.errors.password && formik.touched.password &&*/}
-                        {/*    <div style={{color: 'red'}}>{formik.errors.password}</div>}*/}
-                        {/*<FormControlLabel label={'Remember me'}*/}
-                        {/*                  control={<Checkbox name="rememberMe"*/}
-                        {/*                                     onChange={formik.handleChange}*/}
-                        {/*                                     checked={formik.values.rememberMe}/>}/>*/}
-                        {/*{error && <div style={{color: 'red'}}>{error}</div>}*/}
-                        <TextField label="vk"
-                                   margin="normal"
-                                   placeholder={profile.contacts.vk}
-                                   {...formik.getFieldProps('vk')}
-                        />
-                        <TextField label="twitter"
-                                   margin="normal"
-                                   placeholder={profile.contacts.twitter}
-                                   {...formik.getFieldProps('twitter')}
-                        />
-                        <TextField label="instagram"
-                                   margin="normal"
-                                   placeholder={profile.contacts.instagram}
-                                   {...formik.getFieldProps('instagram')}
-                        />
-                        <TextField label="youtube"
-                                   margin="normal"
-                                   placeholder={profile.contacts.youtube}
-                                   {...formik.getFieldProps('youtube')}
-                        />
-                        <TextField label="gitHub"
-                                   margin="normal"
-                                   placeholder={profile.contacts.github}
-                                   {...formik.getFieldProps('gitHub')}
-                        />
-                        <TextField label="mainLink"
-                                   margin="normal"
-                                   placeholder={profile.contacts.mainLink}
-                                   {...formik.getFieldProps('mainLink')}
-                        />
+                        {Object.entries(contacts).map(([key, value]) => (
+                            <div key={key}>
+                                <TextField
+                                    label={key}
+                                    margin="normal"
+                                    placeholder={value}
+                                    {...formik.getFieldProps('contacts.' + key)}
+                                />
+                            </div>
+                        ))}
+                        {error && <div style={{color: 'red'}}>{error}</div>}
 
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Save

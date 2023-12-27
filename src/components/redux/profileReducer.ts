@@ -3,7 +3,7 @@ import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
 import {ProfileUpdateDataType} from "../Profile/MyPosts/PropfileInfo/PropfileDataForm";
-import {AppThunkDispatch, store} from "./redux-store";
+import {AppThunkDispatch, store, useAppSelector} from "./redux-store";
 
 
 let initialState: ProfilePageType = {
@@ -29,7 +29,8 @@ let initialState: ProfilePageType = {
             twitter: 'string',
             website: 'string',
             youtube: 'string',
-            mainLink: 'string'
+            mainLink: 'string',
+            error: ''
         }
     },
     status: ''
@@ -68,6 +69,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 }
             }
         }
+        case 'SET_ERROR': {
+            return {...state, profile: {...state.profile, contacts: {...state.profile.contacts, error: action.error}}}
+        }
         default:
             return state
     }
@@ -78,6 +82,7 @@ export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserStatusAC>
     | ReturnType<typeof savePhotoSuccessAC>
     | ReturnType<typeof saveProfileAC>
+    | ReturnType<typeof setErrorContactsAC>
 
 export const addPostAC = (newPostText: string) => {
     return {
@@ -110,7 +115,12 @@ export const saveProfileAC = (profileData: ProfileUpdateDataType) => {
         profileData
     }
 }
-
+export const setErrorContactsAC = (error: string) => {
+    return {
+        type: "SET_ERROR",
+        error: error
+    } as const
+}
 export const getUserProfileTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
@@ -131,12 +141,16 @@ export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
         dispatch(savePhotoSuccessAC(response.data.photos))
     }
 }
+
 export const saveProfileTC = (profileData: ProfileUpdateDataType) => async (dispatch: AppThunkDispatch) => {
     const userId: number | null = store.getState().auth.userId
-    console.log(userId)
+    const contacts = useAppSelector(state => state.profilePage.profile.contacts)
     const response = await ProfileAPI.saveProfile(profileData)
     if (response.data.resultCode === 0) {
-        return dispatch(getUserProfileTC(userId))
+         return dispatch(getUserProfileTC(userId))
+    } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
+        dispatch(setErrorContactsAC(message))
     }
 
 }

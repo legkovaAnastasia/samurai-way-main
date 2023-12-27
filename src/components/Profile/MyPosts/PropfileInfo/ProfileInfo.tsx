@@ -57,7 +57,9 @@ const ProfileData = (props: PropsType) => {
 
     return <div>
         <div style={{fontWeight: 'bold'}}>Looking For A Job: {profile.lookingForAJob ? 'yes' : 'no'}</div>
-        <div style={{fontWeight: 'bold'}}>Looking For A Job Description: {profile.lookingForAJobDescription ? `${profile.lookingForAJobDescription}` : '-'}</div>        <div><b>Contacts:</b></div>
+        <div style={{fontWeight: 'bold'}}>Looking For A Job
+            Description: {profile.lookingForAJobDescription ? `${profile.lookingForAJobDescription}` : '-'}</div>
+        <div><b>Contacts:</b></div>
         {Object.entries(contacts).map(([key, value]) => {
             return <Contacts key={key} contactTitle={key} contactValue={value}/>
         })}

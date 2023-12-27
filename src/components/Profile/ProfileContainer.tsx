@@ -13,7 +13,7 @@ import {AuthType, getAuthUserDataTC} from "../redux/authReducer";
 export type UserProfileType = {
     isOwner: boolean | null,
     userId: number | null
-    aboutMe: string
+    aboutMe: string | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string | null
@@ -29,6 +29,7 @@ export type ContactsType = {
     website: string
     youtube: string
     mainLink: string
+    error?:string
 }
 type PhotosType = {
     small: string | null

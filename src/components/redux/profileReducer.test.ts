@@ -1,5 +1,4 @@
 import {addPostAC, profileReducer} from "./profileReducer";
-import any = jasmine.any;
 
 let state = {
     postData: [

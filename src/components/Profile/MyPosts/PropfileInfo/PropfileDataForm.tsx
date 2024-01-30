@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useFormik} from "formik";
 import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
@@ -8,8 +8,9 @@ import Button from "@mui/material/Button";
 import {useAppDispatch, useAppSelector} from "../../../redux/redux-store";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {saveProfileTC} from "../../../redux/profileReducer";
+import {saveProfileTC, setEditModeAC} from "../../../redux/profileReducer";
 import {ContactsType} from "../../ProfileContainer";
+import {setErrorAC} from "../../../redux/authReducer";
 
 export type ProfileUpdateDataType = {
     fullName: string | null,
@@ -19,7 +20,7 @@ export type ProfileUpdateDataType = {
     contacts: ContactsType
 }
 type PropsType = {
-    changeEditModeHandler: () => void
+    // changeEditModeHandler: () => void
 }
 
 type FormikErrorType = {
@@ -31,22 +32,17 @@ type FormikErrorType = {
     youtube?: string
     github?: string
     mainLink?: string
+    // error?:string
     // [key: string]: string | undefined
 }
 export const ProfileDataForm = (props: PropsType) => {
     const dispatch = useAppDispatch()
     const profile = useAppSelector(state => state.profilePage.profile)
+    const editMode = useAppSelector(state => state.profilePage.editMode)
     const contacts = useAppSelector(state => state.profilePage.profile.contacts)
-    const error = useAppSelector(state => state.profilePage.profile.contacts.error)
+    const error = useAppSelector(state => state.profilePage.error)
 
-    const validationRule = (value: string) => {
-        if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-            return 'Incorrect url'
-        }
-        return  ''
-    }
     const formik = useFormik({
-
         initialValues: {
             fullName: profile.fullName,
             aboutMe: profile.aboutMe,
@@ -54,7 +50,7 @@ export const ProfileDataForm = (props: PropsType) => {
             lookingForAJobDescription: profile.lookingForAJobDescription,
             contacts: {
                 facebook: contacts.facebook,
-                'website': contacts.website,
+                website: contacts.website,
                 vk: contacts.vk,
                 twitter: profile.contacts.twitter,
                 instagram: profile.contacts.instagram,
@@ -63,20 +59,13 @@ export const ProfileDataForm = (props: PropsType) => {
                 mainLink: profile.contacts.mainLink
             }
         },
-
-        // validate: (values) => {
-        //     const errors: FormikErrorType = {}
-        //         if (!/^[A-Z0-9._%+-]+\.[A-Z]{2,4}$/i.test(values.contacts.website)) {
-        //         errors.website = 'Invalid email address'
-        //     }
-        //     return errors
-        // },
         onSubmit: values => {
             dispatch(saveProfileTC(values))
-            props.changeEditModeHandler()
         },
     })
 
+    //setErrors - useeff - if err - достать филд - в санке
+    //setErrors принимает fields: { [field: string]: string }
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
@@ -93,7 +82,7 @@ export const ProfileDataForm = (props: PropsType) => {
                                    {...formik.getFieldProps('lookingForAJobDescription')}
                         />
                         <div style={{fontWeight: 'bold'}}>Contacts:</div>
-                        {Object.entries(contacts).map(([key, value]) => (
+                        {Object.entries(contacts).map(([key, value]) =>  (
                             <div key={key}>
                                 <TextField
                                     label={key}
@@ -104,7 +93,6 @@ export const ProfileDataForm = (props: PropsType) => {
                             </div>
                         ))}
                         {error && <div style={{color: 'red'}}>{error}</div>}
-
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Save
                         </Button>

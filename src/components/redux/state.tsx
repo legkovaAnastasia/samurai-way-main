@@ -1,4 +1,3 @@
-
 import {ActionProfileType} from "./profileReducer";
 import {ActionDialoguesType} from "./dialoguesReducer";
 import {UserProfileType} from "../Profile/ProfileContainer";
@@ -22,7 +21,9 @@ export type MessageType = {
 export type ProfilePageType = {
     postData: Array<PostsType>
     profile: UserProfileType,
-    status: string
+    editMode: boolean,
+    status: string,
+    error: string
 }
 
 

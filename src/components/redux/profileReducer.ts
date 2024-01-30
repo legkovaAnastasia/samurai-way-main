@@ -3,7 +3,7 @@ import {UserProfileType} from "../Profile/ProfileContainer";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
 import {ProfileUpdateDataType} from "../Profile/MyPosts/PropfileInfo/PropfileDataForm";
-import {AppThunkDispatch, store, useAppSelector} from "./redux-store";
+import {AppThunkDispatch, store} from "./redux-store";
 
 
 let initialState: ProfilePageType = {
@@ -30,10 +30,11 @@ let initialState: ProfilePageType = {
             website: 'string',
             youtube: 'string',
             mainLink: 'string',
-            error: ''
         }
     },
-    status: ''
+    editMode: false,
+    status: '',
+    error: ''
 }
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionType) => {
     switch (action.type) {
@@ -57,20 +58,20 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                     lookingForAJob: action.profileData.lookingForAJob,
                     lookingForAJobDescription: action.profileData.lookingForAJobDescription,
                     contacts: {
-                        ...state.profile.contacts, twitter: action.profileData.contacts.twitter,
-                        vk: action.profileData.contacts.vk,
-                        facebook: action.profileData.contacts.facebook,
-                        website: action.profileData.contacts.website,
-                        instagram: action.profileData.contacts.instagram,
-                        youtube: action.profileData.contacts.youtube,
-                        github: action.profileData.contacts.github,
-                        mainLink: action.profileData.contacts.mainLink
+                        ...state.profile.contacts, ...action.profileData.contacts
                     }
                 }
             }
         }
         case 'SET_ERROR': {
-            return {...state, profile: {...state.profile, contacts: {...state.profile.contacts, error: action.error}}}
+            return {
+                ...state, error: action.error
+            }
+        }
+        case 'SET_EDIT_MODE': {
+            return {
+                ...state, editMode: action.editMode
+            }
         }
         default:
             return state
@@ -83,6 +84,7 @@ export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof savePhotoSuccessAC>
     | ReturnType<typeof saveProfileAC>
     | ReturnType<typeof setErrorContactsAC>
+    | ReturnType<typeof setEditModeAC>
 
 export const addPostAC = (newPostText: string) => {
     return {
@@ -121,6 +123,12 @@ export const setErrorContactsAC = (error: string) => {
         error: error
     } as const
 }
+export const setEditModeAC = (editMode: boolean) => {
+    return {
+        type: "SET_EDIT_MODE",
+        editMode: editMode
+    } as const
+}
 export const getUserProfileTC = (userId: number | null) => async (dispatch: Dispatch) => {
     let response = await ProfileAPI.getProfile(userId)
     dispatch(setUserProfileAC(response.data))
@@ -144,13 +152,15 @@ export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
 
 export const saveProfileTC = (profileData: ProfileUpdateDataType) => async (dispatch: AppThunkDispatch) => {
     const userId: number | null = store.getState().auth.userId
-    const contacts = useAppSelector(state => state.profilePage.profile.contacts)
     const response = await ProfileAPI.saveProfile(profileData)
     if (response.data.resultCode === 0) {
-         return dispatch(getUserProfileTC(userId))
+        dispatch(getUserProfileTC(userId))
+        console.log(response)
+        dispatch(setEditModeAC(false))
     } else {
         let message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
         dispatch(setErrorContactsAC(message))
+        console.log(response)
+        dispatch(setEditModeAC(true))
     }
-
 }

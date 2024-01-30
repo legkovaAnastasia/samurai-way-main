@@ -7,6 +7,6 @@ export const Profile = (props: MapStateToPropsType&MapDispatchToPropsType) => {
 
     return <div>
         <ProfileInfo {...props} isOwner={props.isOwner} savePhotoTC={props.savePhotoTC}/>
-        <MyPostsContainer profile={props.profile} status={props.status}/>
+        <MyPostsContainer profile={props.profile} status={props.status} editMode={props.editMode} error={props.error}/>
     </div>
 }

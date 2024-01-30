@@ -1,16 +1,21 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from "./ProfileInfo.module.css";
 import preloader from '../../../../assets/preloader.svg'
 import {ProfileStatus} from "./ProfileStatus";
 import {MapDispatchToPropsType, MapStateToPropsType} from "../../ProfileContainer";
-import {useAppSelector} from "../../../redux/redux-store";
+import {useAppDispatch, useAppSelector} from "../../../redux/redux-store";
 import {ProfileDataForm} from "./PropfileDataForm";
 import Button from "@mui/material/Button";
 import {Input} from "@mui/material";
+import {setEditModeAC} from "../../../redux/profileReducer";
 
 export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType) => {
-    let [editMode, setEditMode] = useState(false)
-
+    // let [editMode, setEditMode] = useState(false)
+    const dispatch = useAppDispatch()
+    const editMode = useAppSelector(state => state.profilePage.editMode)
+     // useEffect(()=>{
+    //     dispatch(setEditModeAC(!editMode))
+    // },[editMode])
     if (!props.profile) {
         return <img alt={'preloader'} src={preloader}/>
     }
@@ -22,8 +27,10 @@ export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType)
     }
 
     const changeEditMode = () => {
-        setEditMode(!editMode)
+        // setEditMode(!editMode)
+        dispatch(setEditModeAC(!editMode))
     }
+
     return (
         <div>
             <div>
@@ -40,7 +47,9 @@ export const ProfileInfo = (props: MapStateToPropsType & MapDispatchToPropsType)
 
             <ProfileStatus {...props} status={props.status} updateUserStatusTC={props.updateUserStatusTC}/>
 
-            {editMode ? <ProfileDataForm changeEditModeHandler={changeEditMode}/> :
+            {editMode ? <ProfileDataForm
+                    // changeEditModeHandler={changeEditMode}
+                /> :
                 <ProfileData isOwner={props.isOwner} changeEditModeHandler={changeEditMode}/>}
 
         </div>

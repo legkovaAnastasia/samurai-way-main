@@ -24,9 +24,11 @@ let state = {
             website: 'string',
             youtube: 'string',
             mainLink: ''
-        }
+        },
     },
-    status: ' '
+    editMode: false,
+    status: ' ',
+    error: ''
 }
 test('New post should be added', () => {
     let action = addPostAC('samurai')

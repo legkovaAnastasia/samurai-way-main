@@ -33,7 +33,12 @@ export const UsersAPI = {
     unfollowUser(userId: number) {
         return instance.delete(`follow/${userId}`)
     }
+}
 
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get('security/get-captcha-url')
+    }
 }
 export const ProfileAPI = {
     getProfile(userId: number | null) {
@@ -54,7 +59,7 @@ export const ProfileAPI = {
             }
         })
     },
-    saveProfile(profileData: ProfileUpdateDataType){
+    saveProfile(profileData: ProfileUpdateDataType) {
         return instance.put('/profile', profileData)
     }
 

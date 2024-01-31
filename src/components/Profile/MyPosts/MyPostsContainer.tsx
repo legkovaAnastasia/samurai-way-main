@@ -1,8 +1,7 @@
 import {ActionProfileType, addPostAC} from "../../redux/profileReducer";
-import React from "react";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
-import {store, StorePropsType} from "../../redux/redux-store";
+import {StorePropsType} from "../../redux/redux-store";
 
 const mapStateToProps = (state: StorePropsType) => {
     return{

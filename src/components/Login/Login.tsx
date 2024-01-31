@@ -26,6 +26,7 @@ export type LoginDataType = {
 export const Login = () => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector(state => state.auth.isAuth)
+    const captchaUrl = useAppSelector(state => state.auth.captchaUrl)
     const error = useAppSelector(state => state.auth.error)
 
     const formik = useFormik({
@@ -80,6 +81,8 @@ export const Login = () => {
                                                              onChange={formik.handleChange}
                                                              checked={formik.values.rememberMe}/>}/>
                         {error && <div style={{color: 'red'}}>{error}</div>}
+                        {captchaUrl && <img src={captchaUrl}/>}
+                        {captchaUrl && <input style={{marginTop: '5px', marginBottom: '5px'}}/>}
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>

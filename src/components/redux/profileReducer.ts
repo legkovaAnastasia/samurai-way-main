@@ -155,12 +155,10 @@ export const saveProfileTC = (profileData: ProfileUpdateDataType) => async (disp
     const response = await ProfileAPI.saveProfile(profileData)
     if (response.data.resultCode === 0) {
         dispatch(getUserProfileTC(userId))
-        console.log(response)
         dispatch(setEditModeAC(false))
     } else {
         let message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
         dispatch(setErrorContactsAC(message))
-        console.log(response)
         dispatch(setEditModeAC(true))
     }
 }

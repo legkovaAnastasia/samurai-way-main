@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useFormik} from "formik";
 import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
@@ -8,9 +8,8 @@ import Button from "@mui/material/Button";
 import {useAppDispatch, useAppSelector} from "../../../redux/redux-store";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {saveProfileTC, setEditModeAC} from "../../../redux/profileReducer";
+import {saveProfileTC} from "../../../redux/profileReducer";
 import {ContactsType} from "../../ProfileContainer";
-import {setErrorAC} from "../../../redux/authReducer";
 
 export type ProfileUpdateDataType = {
     fullName: string | null,
@@ -19,26 +18,10 @@ export type ProfileUpdateDataType = {
     lookingForAJobDescription: string
     contacts: ContactsType
 }
-type PropsType = {
-    // changeEditModeHandler: () => void
-}
 
-type FormikErrorType = {
-    facebook?: string
-    website?: string
-    vk?: string
-    twitter?: string
-    instagram?: string
-    youtube?: string
-    github?: string
-    mainLink?: string
-    // error?:string
-    // [key: string]: string | undefined
-}
-export const ProfileDataForm = (props: PropsType) => {
+export const ProfileDataForm = () => {
     const dispatch = useAppDispatch()
     const profile = useAppSelector(state => state.profilePage.profile)
-    const editMode = useAppSelector(state => state.profilePage.editMode)
     const contacts = useAppSelector(state => state.profilePage.profile.contacts)
     const error = useAppSelector(state => state.profilePage.error)
 
@@ -64,8 +47,6 @@ export const ProfileDataForm = (props: PropsType) => {
         },
     })
 
-    //setErrors - useeff - if err - достать филд - в санке
-    //setErrors принимает fields: { [field: string]: string }
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>

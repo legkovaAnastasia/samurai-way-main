@@ -83,7 +83,7 @@ export type ActionProfileType = ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserStatusAC>
     | ReturnType<typeof savePhotoSuccessAC>
     | ReturnType<typeof saveProfileAC>
-    | ReturnType<typeof setErrorContactsAC>
+    | ReturnType<typeof setErrorAC>
     | ReturnType<typeof setEditModeAC>
 
 export const addPostAC = (newPostText: string) => {
@@ -117,7 +117,7 @@ export const saveProfileAC = (profileData: ProfileUpdateDataType) => {
         profileData
     }
 }
-export const setErrorContactsAC = (error: string) => {
+export const setErrorAC = (error: string) => {
     return {
         type: "SET_ERROR",
         error: error
@@ -137,7 +137,7 @@ export const getUserStatusTC = (userId: number | null) => async (dispatch: Dispa
     let response = await ProfileAPI.getStatus(userId)
     dispatch(setUserStatusAC(response.data))
 }
-export const updateUserStatusTC = (status: string) => async (dispatch: Dispatch) => {
+export const updateUserStatusTC = (status: string) => async (dispatch: AppThunkDispatch) => {
     let response = await ProfileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setUserStatusAC(status))
@@ -157,8 +157,8 @@ export const saveProfileTC = (profileData: ProfileUpdateDataType) => async (disp
         dispatch(getUserProfileTC(userId))
         dispatch(setEditModeAC(false))
     } else {
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
-        dispatch(setErrorContactsAC(message))
+        const message = response.data.messages.length > 0 ? response.data.messages[0] : 'some error'
+        dispatch(setErrorAC(message))
         dispatch(setEditModeAC(true))
     }
 }

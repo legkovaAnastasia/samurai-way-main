@@ -37,22 +37,6 @@ const App = () => {
         </div>
     }
 
-    // if (!!isLoggedIn){
-    //     console.log(isLoggedIn)
-    //     return <NavLink to={'/profile/'+userId}/>
-    // }
-    // function withRouter(Component:any) {
-    //     function ComponentWithRouterProp(props:any) {
-    //         let location = useLocation();
-    //         let navigate = useNavigate();
-    //         let params = useParams();
-    //         return (
-    //             <Component {...props} router={{ location, navigate, params }} />
-    //         );
-    //     }
-    //     return ComponentWithRouterProp;
-    // }
-
     return (
         <BrowserRouter>
             <div className="app-wrapper">
